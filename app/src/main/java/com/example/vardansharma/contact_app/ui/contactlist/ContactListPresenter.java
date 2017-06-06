@@ -25,4 +25,10 @@ public class ContactListPresenter implements ContactListContract.Presenter {
     public void detachView() {
         throw new IllegalStateException("No yet implemented");
     }
+
+    public void getAllContacts() {
+
+        screen.showLoading();
+
+    }
 }
