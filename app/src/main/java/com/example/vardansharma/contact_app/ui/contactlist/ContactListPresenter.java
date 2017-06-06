@@ -27,8 +27,8 @@ public class ContactListPresenter implements ContactListContract.Presenter {
     }
 
     public void getAllContacts() {
-
         screen.showLoading();
+        dataSource.getAllContact();
 
     }
 }

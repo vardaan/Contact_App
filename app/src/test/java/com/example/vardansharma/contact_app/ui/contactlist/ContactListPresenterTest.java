@@ -47,6 +47,13 @@ public class ContactListPresenterTest {
         Mockito.verify(screen).showLoading();
     }
 
+    @Test
+    public void shouldCallDataSourceWhenContactsAreFetched(){
+        presenter.getAllContacts();
+
+        Mockito.verify(dataSource).getAllContact();
+    }
+
     @After
     public void tearDown() throws Exception {
 
