@@ -62,8 +62,6 @@ dependencies {
     // libraries from square
     compile 'com.jakewharton.timber:timber:' + rootProject.ext.timberVersion
 
-    compile 'io.reactivex:rxandroid:' + rootProject.ext.rxAndroidVersion
-    compile 'io.reactivex:rxjava:' + rootProject.ext.rxJavaVersion
     compile 'com.squareup.picasso:picasso:' + rootProject.ext.picassoVersion
     compile 'com.jakewharton:butterknife:' + rootProject.ext.butterknifeVersion
     annotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.ext.daggerVersion
@@ -100,6 +98,8 @@ dependencies {
     testCompile 'org.robolectric:robolectric:' + rootProject.ext.roboelectricVersion
     compile 'com.android.support:support-v4:' + rootProject.ext.supportLibVersion
     compile 'javax.inject:javax.inject:1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'

@@ -1,6 +1,13 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
+import com.example.vardansharma.contact_app.data.models.Contact;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by vardansharma on 06/06/17.
@@ -28,7 +35,25 @@ public class ContactListPresenter implements ContactListContract.Presenter {
 
     public void getAllContacts() {
         screen.showLoading();
-        dataSource.getAllContact();
+        dataSource.getAllContact()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Contact>() {
+                    @Override
+                    public void onNext(@NonNull Contact contact) {
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
     }
 }

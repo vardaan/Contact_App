@@ -3,7 +3,8 @@ package com.example.vardansharma.contact_app.data.dataSource;
 import com.example.vardansharma.contact_app.data.ContactsApiService;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by vardansharma on 06/06/17.

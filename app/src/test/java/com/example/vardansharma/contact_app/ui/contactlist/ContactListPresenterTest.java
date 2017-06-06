@@ -2,12 +2,12 @@ package com.example.vardansharma.contact_app.ui.contactlist;
 
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by vardansharma on 06/06/17.
@@ -44,19 +44,23 @@ public class ContactListPresenterTest {
     public void shouldShowLoadingWhenContactsAreFetched() {
         presenter.getAllContacts();
 
-        Mockito.verify(screen).showLoading();
+        verify(screen).showLoading();
     }
 
     @Test
-    public void shouldCallDataSourceWhenContactsAreFetched(){
+    public void shouldCallDataSourceWhenContactsAreFetched() {
         presenter.getAllContacts();
 
-        Mockito.verify(dataSource).getAllContact();
+        verify(dataSource).getAllContact();
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
+        presenter.getAllContacts();
 
+
+        verify(screen).hideLoading();
     }
+
 
 }
