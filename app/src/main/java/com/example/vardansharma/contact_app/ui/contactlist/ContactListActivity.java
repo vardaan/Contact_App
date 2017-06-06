@@ -1,4 +1,4 @@
-package com.example.vardansharma.contact_app.ui;
+package com.example.vardansharma.contact_app.ui.contactlist;
 
 import android.os.Bundle;
 

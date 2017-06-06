@@ -8,5 +8,5 @@ public interface BasePresenter {
 
     void attachView();
 
-    void dettachView();
+    void detachView();
 }

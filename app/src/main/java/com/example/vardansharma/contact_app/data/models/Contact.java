@@ -1,4 +1,4 @@
-package com.example.vardansharma.contact_app.data;
+package com.example.vardansharma.contact_app.data.models;
 
 
 // Won't require so much using data classes in kotlin
