@@ -30,7 +30,7 @@ public class ContactListPresenter implements ContactListContract.Presenter {
 
     @Override
     public void attachView() {
-        throw new IllegalStateException("No yet implemented");
+        //nothing to do here
     }
 
 
