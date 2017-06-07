@@ -5,6 +5,8 @@ import com.example.vardansharma.contact_app.data.models.Contact;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 
 
@@ -15,12 +17,14 @@ import io.reactivex.Observable;
 public class RemoteDataSource implements DataSource {
     private final ContactsApiService contactsApiService;
 
+    @Inject
     public RemoteDataSource(ContactsApiService contactsApiService) {
         this.contactsApiService = contactsApiService;
     }
 
     @Override
-    public Observable<List<Contact>>getAllContact() {
-        throw new IllegalStateException("not yet implemented");
+    public Observable<List<Contact>> getAllContact() {
+         contactsApiService.getAllContacts();
+        return null;
     }
 }
