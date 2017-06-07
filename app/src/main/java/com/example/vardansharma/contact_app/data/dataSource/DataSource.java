@@ -2,6 +2,8 @@ package com.example.vardansharma.contact_app.data.dataSource;
 
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -9,5 +11,5 @@ import io.reactivex.Observable;
  */
 
 public interface DataSource {
-    Observable<Contact> getAllContact();
+    Observable<List<Contact>> getAllContact();
 }

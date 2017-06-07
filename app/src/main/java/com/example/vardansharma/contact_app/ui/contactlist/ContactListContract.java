@@ -11,6 +11,7 @@ public interface ContactListContract {
 
     interface Screen extends BaseScreen {
 
+        void showEmptyScreen();
     }
 
     interface Presenter extends BasePresenter {

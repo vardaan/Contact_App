@@ -3,6 +3,8 @@ package com.example.vardansharma.contact_app.ui.contactlist;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.util.List;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -36,15 +38,15 @@ public class ContactListPresenter implements ContactListContract.Presenter {
         screen.showLoading();
         dataSource.getAllContact()
                 .subscribeOn(Schedulers.io())
-                .subscribeWith(new DisposableObserver<Contact>() {
+                .subscribeWith(new DisposableObserver<List<Contact>>() {
                     @Override
-                    public void onNext(@NonNull Contact contact) {
+                    public void onNext(@NonNull List<Contact> contact) {
 
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-
+                        screen.hideLoading();
                     }
 
                     @Override

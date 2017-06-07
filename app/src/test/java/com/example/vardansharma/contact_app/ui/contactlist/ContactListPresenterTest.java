@@ -1,12 +1,13 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
-import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
@@ -61,7 +62,7 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
-        when(dataSource.getAllContact()).thenReturn(Observable.<Contact>empty());
+        when(dataSource.getAllContact()).thenReturn(Observable.empty());
 
         presenter.getAllContacts();
 
@@ -72,5 +73,32 @@ public class ContactListPresenterTest {
         verify(screen).hideLoading();
     }
 
+    @Test
+    public void shouldHideLoadingInCaseOfFailure() {
+        when(dataSource.getAllContact()).thenReturn(Observable.error(new Exception()));
+
+        presenter.getAllContacts();
+
+        TestObserver testObserver = dataSource.getAllContact().test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).hideLoading();
+    }
+
+    @Test
+    public void shouldShowEmptyScreenInCaseOfEmptyData() {
+        {
+            when(dataSource.getAllContact()).thenReturn(Observable.fromIterable(new ArrayList<>()));
+
+            presenter.getAllContacts();
+
+            TestObserver testObserver = dataSource.getAllContact().test();
+
+            testObserver.awaitTerminalEvent();
+
+            verify(screen).showEmptyScreen();
+        }
+    }
 
 }
