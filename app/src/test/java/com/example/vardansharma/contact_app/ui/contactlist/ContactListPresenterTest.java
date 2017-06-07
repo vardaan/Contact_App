@@ -134,7 +134,7 @@ public class ContactListPresenterTest {
     }
 
     @Test
-    public void shouldShowErrorInCaseOfFailure(){
+    public void shouldShowErrorInCaseOfFailure() {
         when(dataSource.getAllContact()).thenReturn(Observable.error(new Exception()));
 
         presenter.getAllContacts();

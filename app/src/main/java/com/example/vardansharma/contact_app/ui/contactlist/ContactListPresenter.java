@@ -6,6 +6,7 @@ import com.example.vardansharma.contact_app.data.models.Contact;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -19,9 +20,12 @@ public class ContactListPresenter implements ContactListContract.Presenter {
     private final DataSource dataSource;
     private final ContactListContract.Screen screen;
 
+    private CompositeDisposable compositeDisposable;
+
     public ContactListPresenter(DataSource dataSource, ContactListContract.Screen screen) {
         this.dataSource = dataSource;
         this.screen = screen;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -31,12 +35,12 @@ public class ContactListPresenter implements ContactListContract.Presenter {
 
     @Override
     public void detachView() {
-        throw new IllegalStateException("No yet implemented");
+        compositeDisposable.clear();
     }
 
     public void getAllContacts() {
         screen.showLoading();
-        dataSource.getAllContact()
+        compositeDisposable.add(dataSource.getAllContact()
                 .subscribeOn(Schedulers.io())
                 .subscribeWith(new DisposableObserver<List<Contact>>() {
                     @Override
@@ -58,7 +62,7 @@ public class ContactListPresenter implements ContactListContract.Presenter {
                     public void onComplete() {
                         screen.hideLoading();
                     }
-                });
+                }));
 
     }
 }
