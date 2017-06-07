@@ -14,33 +14,43 @@ public class FakeContactData {
             .favorite(false)
             .firstName("angeline")
             .lastName("jolie")
-            .id(1).profilePic("")
+            .id(1)
+            .profilePic("")
+            .url("")
             .build();
     public static final Contact brad = new Contact.Builder()
             .favorite(false)
             .firstName("brad")
             .lastName("pit")
-            .id(2).profilePic("")
+            .id(2)
+            .url("")
+            .profilePic("")
             .build();
 
     public static final Contact hugh = new Contact.Builder()
             .favorite(false)
             .firstName("hugh")
             .lastName("jackman")
-            .id(3).profilePic("")
+            .id(3)
+            .url("")
+            .profilePic("")
             .build();
     public static final Contact vardan = new Contact.Builder()
             .favorite(false)
             .firstName("vardan")
             .lastName("sharma")
-            .id(4).profilePic("")
+            .id(4)
+            .url("")
+            .profilePic("")
             .build();
 
     public static final Contact monica = new Contact.Builder()
             .favorite(false)
             .firstName("monica")
             .lastName("bulluci")
-            .id(5).profilePic("")
+            .id(5)
+            .profilePic("")
+            .url("")
             .build();
 
     public static List<Contact> getContactList() {

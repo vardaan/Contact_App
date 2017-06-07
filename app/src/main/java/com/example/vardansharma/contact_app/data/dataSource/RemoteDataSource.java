@@ -24,7 +24,6 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public Observable<List<Contact>> getAllContact() {
-         contactsApiService.getAllContacts();
-        return null;
+        return contactsApiService.getAllContacts();
     }
 }
