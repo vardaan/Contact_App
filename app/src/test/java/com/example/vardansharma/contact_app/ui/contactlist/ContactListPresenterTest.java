@@ -75,7 +75,7 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
-        when(dataSource.getAllContact()).thenReturn(Observable.empty());
+        when(dataSource.getAllContact()).thenReturn(Observable.just(FakeContactData.getContactList()));
 
         presenter.getAllContacts();
 

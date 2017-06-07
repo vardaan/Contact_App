@@ -42,6 +42,7 @@ public class ContactListPresenter implements ContactListContract.Presenter {
                 .subscribeWith(new DisposableObserver<List<Contact>>() {
                     @Override
                     public void onNext(@NonNull List<Contact> contacts) {
+                        screen.hideLoading();
                         if (contacts == null || contacts.size() == 0) {
                             screen.showEmptyScreen();
                             return;
@@ -57,7 +58,6 @@ public class ContactListPresenter implements ContactListContract.Presenter {
 
                     @Override
                     public void onComplete() {
-                        screen.hideLoading();
                     }
                 }));
 
