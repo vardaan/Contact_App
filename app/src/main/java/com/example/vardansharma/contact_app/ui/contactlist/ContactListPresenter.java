@@ -40,8 +40,10 @@ public class ContactListPresenter implements ContactListContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .subscribeWith(new DisposableObserver<List<Contact>>() {
                     @Override
-                    public void onNext(@NonNull List<Contact> contact) {
-
+                    public void onNext(@NonNull List<Contact> contacts) {
+                        if(contacts == null || contacts.size() ==0){
+                            screen.showEmptyScreen();
+                        }
                     }
 
                     @Override

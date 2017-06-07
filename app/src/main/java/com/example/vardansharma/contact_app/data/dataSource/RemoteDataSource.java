@@ -3,6 +3,8 @@ package com.example.vardansharma.contact_app.data.dataSource;
 import com.example.vardansharma.contact_app.data.ContactsApiService;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 
@@ -18,7 +20,7 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public Observable<Contact> getAllContact() {
+    public Observable<List<Contact>>getAllContact() {
         throw new IllegalStateException("not yet implemented");
     }
 }

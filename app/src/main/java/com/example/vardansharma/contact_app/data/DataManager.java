@@ -5,6 +5,8 @@ import com.example.vardansharma.contact_app.data.dataSource.InMemoryDataSource;
 import com.example.vardansharma.contact_app.data.dataSource.RemoteDataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 
@@ -22,7 +24,7 @@ public class DataManager implements DataSource {
     }
 
     @Override
-    public Observable<Contact> getAllContact() {
+    public Observable<List<Contact>> getAllContact() {
         throw new IllegalStateException("Not yet implemented");
     }
 }

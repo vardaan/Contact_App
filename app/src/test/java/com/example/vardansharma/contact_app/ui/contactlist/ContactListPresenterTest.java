@@ -88,17 +88,15 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldShowEmptyScreenInCaseOfEmptyData() {
-        {
-            when(dataSource.getAllContact()).thenReturn(Observable.fromIterable(new ArrayList<>()));
+        when(dataSource.getAllContact()).thenReturn(Observable.just(new ArrayList<>()));
 
-            presenter.getAllContacts();
+        presenter.getAllContacts();
 
-            TestObserver testObserver = dataSource.getAllContact().test();
+        TestObserver testObserver = dataSource.getAllContact().test();
 
-            testObserver.awaitTerminalEvent();
+        testObserver.awaitTerminalEvent();
 
-            verify(screen).showEmptyScreen();
-        }
+        verify(screen).showEmptyScreen();
     }
 
 }

@@ -2,6 +2,8 @@ package com.example.vardansharma.contact_app.data.dataSource;
 
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 
@@ -11,7 +13,7 @@ import io.reactivex.Observable;
 
 public class InMemoryDataSource implements DataSource {
     @Override
-    public Observable<Contact> getAllContact() {
+    public Observable<List<Contact>> getAllContact() {
         throw new IllegalStateException("Not yet implemented");
     }
 }
