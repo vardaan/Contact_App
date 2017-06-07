@@ -25,6 +25,7 @@ public class DataManager implements DataSource {
 
     @Override
     public Observable<List<Contact>> getAllContact() {
-        throw new IllegalStateException("Not yet implemented");
+        remoteDataSource.getAllContact();
+        return null;
     }
 }
