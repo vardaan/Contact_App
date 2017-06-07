@@ -23,5 +23,7 @@ public interface ContactListContract {
 
     interface Presenter extends BasePresenter {
 
+        void getAllContacts();
+
     }
 }

@@ -33,11 +33,8 @@ public class ContactListPresenter implements ContactListContract.Presenter {
         throw new IllegalStateException("No yet implemented");
     }
 
-    @Override
-    public void detachView() {
-        compositeDisposable.clear();
-    }
 
+    @Override
     public void getAllContacts() {
         screen.showLoading();
         compositeDisposable.add(dataSource.getAllContact()
@@ -64,5 +61,10 @@ public class ContactListPresenter implements ContactListContract.Presenter {
                     }
                 }));
 
+    }
+
+    @Override
+    public void detachView() {
+        compositeDisposable.clear();
     }
 }
