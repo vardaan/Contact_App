@@ -1,13 +1,18 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
+import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by vardansharma on 06/06/17.
@@ -56,8 +61,13 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
+        when(dataSource.getAllContact()).thenReturn(Observable.<Contact>empty());
+
         presenter.getAllContacts();
 
+        TestObserver testObserver = dataSource.getAllContact().test();
+
+        testObserver.awaitTerminalEvent();
 
         verify(screen).hideLoading();
     }

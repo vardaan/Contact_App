@@ -5,7 +5,8 @@ import com.example.vardansharma.contact_app.data.dataSource.InMemoryDataSource;
 import com.example.vardansharma.contact_app.data.dataSource.RemoteDataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by vardansharma on 06/06/17.
