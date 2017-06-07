@@ -41,14 +41,17 @@ public class ContactListPresenter implements ContactListContract.Presenter {
                 .subscribeWith(new DisposableObserver<List<Contact>>() {
                     @Override
                     public void onNext(@NonNull List<Contact> contacts) {
-                        if(contacts == null || contacts.size() ==0){
+                        if (contacts == null || contacts.size() == 0) {
                             screen.showEmptyScreen();
+                            return;
                         }
+                        screen.showData(contacts);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         screen.hideLoading();
+                        screen.showErrorScreen();
                     }
 
                     @Override

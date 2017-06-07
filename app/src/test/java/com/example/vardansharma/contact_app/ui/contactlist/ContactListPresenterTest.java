@@ -1,17 +1,24 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
+import com.example.vardansharma.contact_app.FakeContactData;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
+import com.example.vardansharma.contact_app.data.models.Contact;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +39,9 @@ public class ContactListPresenterTest {
      * If there are no contacts on server, display a message “No Contacts Found” instead of the empty list page
      */
 
+    @Captor
+    ArgumentCaptor<List<Contact>> captor;
+
 
     @Mock
     private DataSource dataSource;
@@ -48,6 +58,8 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldShowLoadingWhenContactsAreFetched() {
+        when(dataSource.getAllContact()).thenReturn(Observable.empty());
+
         presenter.getAllContacts();
 
         verify(screen).showLoading();
@@ -55,6 +67,7 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldCallDataSourceWhenContactsAreFetched() {
+        when(dataSource.getAllContact()).thenReturn(Observable.empty());
         presenter.getAllContacts();
 
         verify(dataSource).getAllContact();
@@ -99,4 +112,37 @@ public class ContactListPresenterTest {
         verify(screen).showEmptyScreen();
     }
 
+    @Test
+    public void shouldDisplayDataInCaseOfSuccess() {
+        final List<Contact> contactList = FakeContactData.getContactList();
+
+        when(dataSource.getAllContact()).thenReturn(Observable.just(contactList));
+
+        presenter.getAllContacts();
+
+        TestObserver testObserver = dataSource.getAllContact().test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen, never()).showEmptyScreen();
+
+        verify(screen).showData(captor.capture());
+
+        final List<Contact> contacts = captor.getValue();
+
+        Assert.assertEquals(contactList.size(), contacts.size());
+    }
+
+    @Test
+    public void shouldShowErrorInCaseOfFailure(){
+        when(dataSource.getAllContact()).thenReturn(Observable.error(new Exception()));
+
+        presenter.getAllContacts();
+
+        TestObserver testObserver = dataSource.getAllContact().test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).showErrorScreen();
+    }
 }
