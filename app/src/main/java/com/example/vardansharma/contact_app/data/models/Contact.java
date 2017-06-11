@@ -1,12 +1,17 @@
 package com.example.vardansharma.contact_app.data.models;
 
 
+import com.squareup.moshi.Json;
+
 // Won't require so much using data classes in kotlin
 public class Contact {
 
     private int id;
+    @Json (name = "first_name")
     private String firstName;
+    @Json (name = "last_name")
     private String lastName;
+    @Json (name = "profile pic")
     private String profilePic;
     private boolean favorite;
     private String url;
