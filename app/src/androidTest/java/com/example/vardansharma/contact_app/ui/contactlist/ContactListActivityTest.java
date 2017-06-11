@@ -81,6 +81,17 @@ public class ContactListActivityTest {
 
     }
 
+    @Test
+    public void shouldShowFAB() {
+        when(component.getMockDataManager()
+                .getAllContact())
+                .thenReturn(Observable.just(FakeContactData.EMPTY_CONTACTS));
+
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.contact_list_add_contact)).check(matches(isDisplayed()));
+    }
+
     @After
     public void tearDown() throws Exception {
         unregisterIdlingResources(rxIdlingResource);
