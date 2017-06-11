@@ -3,4 +3,5 @@
     <string name="no_contacts_found">No Contacts found</string>
     <string name="loading_msg">Please wait...</string>
     <string name="contacts">Contacts</string>
+    <string name="search">Search</string>
 </resources>

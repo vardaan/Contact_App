@@ -78,7 +78,7 @@ public class ContactListActivityTest {
 
         onView(withId(R.id.contact_list_toolbar)).check(matches(isDisplayed()));
         onView(withId(R.id.contact_list_toolbar)).check(matches(hasDescendant(withText(R.string.contacts))));
-
+        onView(withId(R.id.menu_search)).check(matches(isDisplayed()));
     }
 
     @Test

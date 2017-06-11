@@ -2,6 +2,10 @@ package com.example.vardansharma.contact_app.ui.contactlist;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +26,13 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
     ContactListContract.Presenter presenter;// private fields won't be injected
     @BindView (R.id.contact_list_no_Data)
     TextView contactListNoData;
+    @BindView (R.id.contact_list_toolbar)
+    Toolbar toolbar;
+    @BindView (R.id.contact_list_rv)
+    RecyclerView recyclerView;
+    @BindView (R.id.contact_list_add_contact)
+    FloatingActionButton addContact;
+
     private ContactListComponent component;
 
     private ProgressDialog progressDialog;
@@ -32,6 +43,8 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
         initDI();
         setContentView(R.layout.activity_contact_list);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.loading_msg));
@@ -51,6 +64,11 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
         component.inject(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.contact_list_menu, menu);
+        return true;
+    }
 
     @Override
     protected void onDestroy() {
