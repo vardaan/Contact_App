@@ -4,4 +4,13 @@
     <color name="colorPrimaryDark">#689F38</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#fff</color>
+
+
+    <color name="contactColor1">#0F9D58</color>
+    <color name="contactColor2">#FF5722</color>
+    <color name="contactColor3">#757575</color>
+    <color name="contactColor4">#DB4437</color>
+    <color name="contactColor5">#683AB8</color>
+    <color name="contactColor6">#039BE5</color>
+    <color name="contactColor7">#E91E63</color>
 </resources>

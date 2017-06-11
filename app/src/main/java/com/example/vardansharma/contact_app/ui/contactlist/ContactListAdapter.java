@@ -1,13 +1,16 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.utils.MaterialLetterIcon;
 
 import java.util.List;
 
@@ -22,11 +25,10 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.Contact
 
     private final List<Contact> contacts;
 
-
     ContactListAdapter(List<Contact> contacts) {
         this.contacts = contacts;
-    }
 
+    }
 
     @Override
     public ContactVH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,9 +37,16 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.Contact
     }
 
     @Override
-    public void onBindViewHolder(ContactVH holder, int position) {
+    public void onBindViewHolder(ContactVH vh, int position) {
         final Contact contact = contacts.get(position);
-        holder.contactName.setText(contact.getFirstName());
+        vh.contactName.setText(getFormattedName(contact));
+        vh.contactType.setVisibility(position == 0 ? View.VISIBLE : View.INVISIBLE);
+        vh.letterIcon.setLetter(contact.getFirstName(), position);
+    }
+
+    @NonNull
+    private String getFormattedName(Contact contact) {
+        return contact.getFirstName() + " " + contact.getLastName();
     }
 
     @Override
@@ -48,6 +57,12 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.Contact
     static class ContactVH extends RecyclerView.ViewHolder {
         @BindView (R.id.contact_name)
         TextView contactName;
+        @BindView (R.id.contact_type_indicator)
+        ImageView contactType;
+        @BindView (R.id.contact_letter_icon)
+        MaterialLetterIcon letterIcon;
+        @BindView (R.id.contact_first_letter)
+        TextView contactFirstLetter;
 
         public ContactVH(View itemView) {
             super(itemView);
