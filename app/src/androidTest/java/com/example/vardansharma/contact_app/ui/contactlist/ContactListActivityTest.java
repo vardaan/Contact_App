@@ -10,6 +10,8 @@ import com.example.vardansharma.contact_app.FakeContactData;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.RxIdlingResource;
 import com.example.vardansharma.contact_app.TestComponentRule;
+import com.example.vardansharma.contact_app.assertions.RecyclerViewItemCountAssertion;
+import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,6 +20,8 @@ import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -90,6 +94,18 @@ public class ContactListActivityTest {
         mActivityRule.launchActivity(new Intent());
 
         onView(withId(R.id.contact_list_add_contact)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldShowCorrectNumberOfContacts() {
+        final List<Contact> contactList = FakeContactData.getContactList();
+        when(component.getMockDataManager()
+                .getAllContact())
+                .thenReturn(Observable.just(contactList));
+
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.contact_list_rv)).check(new RecyclerViewItemCountAssertion(contactList.size()));
     }
 
     @After

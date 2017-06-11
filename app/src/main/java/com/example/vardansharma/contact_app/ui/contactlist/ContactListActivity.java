@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -46,17 +47,23 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
         setContentView(R.layout.activity_contact_list);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toolbar.setElevation(Utils.dpToPixel(4, this));
-        }
+        initToolBar();
 
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.loading_msg));
 
         presenter.attachView();
 
         presenter.getAllContacts();
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.setElevation(Utils.dpToPixel(4, this));
+        }
     }
 
     private void initDI() {
@@ -109,7 +116,7 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
 
     @Override
     public void showData(List<Contact> contacts) {
-
+        recyclerView.setAdapter(new ContactListAdapter(contacts));
     }
 
     @Override

@@ -52,7 +52,6 @@
             app:layout_anchorGravity="bottom|right|end"
             app:pressedTranslationZ="12dp"
             />
-
     </FrameLayout>
 
 </LinearLayout>
