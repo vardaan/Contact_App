@@ -1,6 +1,7 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.base.BaseActivity;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.utils.Utils;
 
 import java.util.List;
 
@@ -45,6 +47,9 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.setElevation(Utils.dpToPixel(4, this));
+        }
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.loading_msg));
