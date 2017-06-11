@@ -6,6 +6,7 @@ import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -16,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -49,6 +52,12 @@ public class ContactListPresenterTest {
     @Mock
     ContactListContract.Screen screen;
     private ContactListPresenter presenter;
+
+    @BeforeClass
+    public static void setUpScheduler(){
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(
+                __ -> Schedulers.trampoline());
+    }
 
     @Before
     public void setUp() throws Exception {

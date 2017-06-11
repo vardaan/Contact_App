@@ -10,6 +10,8 @@ import java.util.List;
  */
 
 public class FakeContactData {
+
+    public static List<Contact> EMPTY_CONTACTS = new ArrayList<>();
     public static final Contact angeline = new Contact.Builder()
             .favorite(false)
             .firstName("angeline")

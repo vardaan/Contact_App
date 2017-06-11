@@ -22,6 +22,16 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    sourceSets {
+        String sharedTestDir = 'src/sharedTestData/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
 }
 
 retrolambda {
@@ -77,6 +87,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:'+rootProject.ext.retrofitVersion
     compile 'com.squareup.retrofit2:adapter-rxjava2:'+rootProject.ext.retrofitVersion
 
+
+    androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.ext.daggerVersion
     androidTestCompile 'com.android.support:support-annotations:' + rootProject.ext.supportLibVersion
     androidTestCompile "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
     androidTestCompile "com.android.support.test:runner:$RUNNER_VERSION"

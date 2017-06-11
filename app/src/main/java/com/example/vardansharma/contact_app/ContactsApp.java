@@ -32,4 +32,8 @@ public class ContactsApp extends Application {
     public ApplicationComponent getAppComponent() {
         return appComponent;
     }
+
+    public void setComponent(ApplicationComponent appComponent) {
+        this.appComponent = appComponent;
+    }
 }

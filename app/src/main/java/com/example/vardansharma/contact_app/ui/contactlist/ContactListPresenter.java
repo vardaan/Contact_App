@@ -5,6 +5,7 @@ import com.example.vardansharma.contact_app.data.models.Contact;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -39,6 +40,7 @@ public class ContactListPresenter implements ContactListContract.Presenter {
         screen.showLoading();
         compositeDisposable.add(dataSource.getAllContact()
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<Contact>>() {
                     @Override
                     public void onNext(@NonNull List<Contact> contacts) {

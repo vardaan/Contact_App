@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.vardansharma.contact_app.ui.contactlist.ContactListActivity">
+
+    <TextView
+        android:id="@+id/contact_list_no_Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_contacts_found"
+        android:visibility="gone"
+        />
+
+</FrameLayout>
