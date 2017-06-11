@@ -25,8 +25,10 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.Espresso.unregisterIdlingResources;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.when;
 
 /**
@@ -42,7 +44,7 @@ public class ContactListActivityTest {
 
     @Rule
     public ActivityTestRule<ContactListActivity> mActivityRule = new ActivityTestRule<>(
-            ContactListActivity.class, true, false);
+            ContactListActivity.class, true, false);// needed to make activity launch after setting the application component
 
 
     @Rule
@@ -64,6 +66,19 @@ public class ContactListActivityTest {
 
         mActivityRule.launchActivity(new Intent());
         onView(withId(R.id.contact_list_no_Data)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldDisplayToolbarCorrectly() {
+        when(component.getMockDataManager()
+                .getAllContact())
+                .thenReturn(Observable.just(FakeContactData.EMPTY_CONTACTS));
+
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.contact_list_toolbar)).check(matches(isDisplayed()));
+        onView(withId(R.id.contact_list_toolbar)).check(matches(hasDescendant(withText(R.string.contacts))));
+
     }
 
     @After

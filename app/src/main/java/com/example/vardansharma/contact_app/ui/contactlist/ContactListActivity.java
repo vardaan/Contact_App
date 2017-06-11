@@ -1,5 +1,6 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,12 +24,17 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
     TextView contactListNoData;
     private ContactListComponent component;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDI();
         setContentView(R.layout.activity_contact_list);
         ButterKnife.bind(this);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading_msg));
 
         presenter.attachView();
 
@@ -55,12 +61,12 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
 
     @Override
     public void showLoading() {
-
+        progressDialog.show();
     }
 
     @Override
     public void hideLoading() {
-
+        progressDialog.hide();
     }
 
     @Override
