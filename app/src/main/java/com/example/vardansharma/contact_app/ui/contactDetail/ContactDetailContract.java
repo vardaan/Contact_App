@@ -21,13 +21,18 @@ public interface ContactDetailContract {
         void launchPhoneApp(String phoneNumber);
 
         void launchEmailApp(String email);
+
+        void launchMessageApp(String capture);
     }
 
     interface Presenter extends BasePresenter {
+
+        void getContactDetail(String contactId);
 
         void onPhoneButtonClicked(String phoneNum);
 
         void onEmailButtonClicked(String email);
 
+        void onMessageButtonClicked(String phoneNum);
     }
 }

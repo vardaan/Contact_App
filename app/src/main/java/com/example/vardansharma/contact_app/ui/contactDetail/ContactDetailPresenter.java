@@ -36,6 +36,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
 
     }
 
+    @Override
     public void getContactDetail(String contactId) {
         view.showLoading();
         dataSource.getContactDetails(contactId)
@@ -74,5 +75,10 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     public void onEmailButtonClicked(String email) {
         view.launchEmailApp(email);
 
+    }
+
+    @Override
+    public void onMessageButtonClicked(String phoneNum) {
+        view.launchMessageApp(phoneNum);
     }
 }

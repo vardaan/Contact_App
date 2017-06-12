@@ -175,6 +175,17 @@ public class ContactDetailPresenterTest {
 
     }
 
+    @Test
+    public void shouldLaunchMessageAppWhenEmailButtonIsClicked() throws Exception {
+        final String phoneNum = "9501168453";
+
+        presenter.onMessageButtonClicked(phoneNum);
+
+        verify(screen).launchMessageApp(argumentCaptor.capture());
+        assertEquals(phoneNum, argumentCaptor.getValue());
+
+    }
+
     @After
     public void tearDown() throws Exception {
 
