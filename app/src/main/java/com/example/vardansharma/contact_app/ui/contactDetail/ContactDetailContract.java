@@ -11,6 +11,9 @@ public interface ContactDetailContract {
 
     interface Screen extends BaseScreen {
 
+        void showErrorMessage();
+
+        void showNetworkError();
     }
 
     interface Presenter extends BasePresenter {

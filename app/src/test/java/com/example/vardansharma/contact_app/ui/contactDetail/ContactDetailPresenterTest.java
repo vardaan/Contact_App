@@ -19,6 +19,7 @@ import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -94,6 +95,22 @@ public class ContactDetailPresenterTest {
         testObserver.awaitTerminalEvent();
 
         verify(screen).hideLoading();
+    }
+
+
+    @Test
+    public void shouldShowErrorInCaseOfFailure() {
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.error(new Exception()));
+
+        presenter.getContactDetail("1");
+
+        TestObserver testObserver = dataSource.getContactDetails("1").test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).showErrorMessage();
+
+        verify(screen, never()).showNetworkError();
     }
 
     @After

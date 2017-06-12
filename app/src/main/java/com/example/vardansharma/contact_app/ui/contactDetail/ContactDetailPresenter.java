@@ -48,6 +48,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         view.hideLoading();
+                        view.showErrorMessage();
                     }
 
                     @Override

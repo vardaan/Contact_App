@@ -68,4 +68,14 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     public void hideRetry() {
 
     }
+
+    @Override
+    public void showErrorMessage() {
+
+    }
+
+    @Override
+    public void showNetworkError() {
+
+    }
 }
