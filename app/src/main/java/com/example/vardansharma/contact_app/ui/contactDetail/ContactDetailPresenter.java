@@ -45,6 +45,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
                     @Override
                     public void onNext(@NonNull Contact contact) {
                         view.hideLoading();
+                        view.showContactDetail(contact);
                     }
 
                     @Override
@@ -62,5 +63,10 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
                     public void onComplete() {
                     }
                 });
+    }
+
+    @Override
+    public void onPhoneButtonClicked(String phoneNum) {
+        view.launchPhoneApp(phoneNum);
     }
 }

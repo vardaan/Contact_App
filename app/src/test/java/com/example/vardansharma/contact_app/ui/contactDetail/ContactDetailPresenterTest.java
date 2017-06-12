@@ -2,9 +2,9 @@ package com.example.vardansharma.contact_app.ui.contactDetail;
 
 import com.example.vardansharma.contact_app.FakeContactData;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
+import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,6 +20,7 @@ import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -34,6 +35,9 @@ public class ContactDetailPresenterTest {
 
     @Captor
     ArgumentCaptor<String> argumentCaptor;
+
+    @Captor
+    ArgumentCaptor<Contact> contactArgumentCaptor;
 
     @Mock
     ContactDetailContract.Screen screen;
@@ -69,7 +73,7 @@ public class ContactDetailPresenterTest {
         presenter.getContactDetail(contactId);
 
         verify(dataSource).getContactDetails(argumentCaptor.capture());
-        Assert.assertEquals(argumentCaptor.getValue(), contactId);
+        assertEquals(argumentCaptor.getValue(), contactId);
     }
 
 
@@ -131,6 +135,33 @@ public class ContactDetailPresenterTest {
         verify(screen, never()).showErrorMessage();
 
         verify(screen).showNetworkError();
+
+    }
+
+    @Test
+    public void shouldShowContactDataInCaseOfSuccess() throws Exception {
+        final String contactId = "1";
+        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(FakeContactData.monica));
+
+        presenter.getContactDetail(contactId);
+
+        TestObserver testObserver = dataSource.getContactDetails(contactId).test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).showContactDetail(contactArgumentCaptor.capture());
+
+        assertEquals(contactArgumentCaptor.getValue(), FakeContactData.monica);
+    }
+
+
+    @Test
+    public void shouldLaunchPhoneAppWhenPhoneButtonIsClicked() throws Exception {
+        final String phoneNum = "9501168453";
+        presenter.onPhoneButtonClicked(phoneNum);
+
+        verify(screen).launchPhoneApp(argumentCaptor.capture());
+        assertEquals(phoneNum, argumentCaptor.getValue());
 
     }
 

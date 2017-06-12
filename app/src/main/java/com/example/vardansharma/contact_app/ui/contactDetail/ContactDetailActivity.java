@@ -78,4 +78,15 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     public void showNetworkError() {
 
     }
+
+    @Override
+    public void showContactDetail(Contact contact) {
+
+    }
+
+    @Override
+    public void launchPhoneApp(String phoneNumber) {
+
+    }
+
 }
