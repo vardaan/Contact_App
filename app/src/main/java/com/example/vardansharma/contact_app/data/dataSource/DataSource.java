@@ -12,4 +12,6 @@ import io.reactivex.Observable;
 
 public interface DataSource {
     Observable<List<Contact>> getAllContact();
+
+    Observable<Contact> getContactDetails(String id);
 }

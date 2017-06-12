@@ -19,6 +19,9 @@ public class Contact implements Parcelable {
     private boolean favorite;
     private String url;
 
+    private String email;
+    private String phoneNumber;
+
     private Contact(Builder builder) {
         setId(builder.id);
         setFirstName(builder.firstName);
@@ -26,7 +29,10 @@ public class Contact implements Parcelable {
         setProfilePic(builder.profilePic);
         setFavorite(builder.favorite);
         setUrl(builder.url);
+        email = builder.email;
+        phoneNumber = builder.phoneNumber;
     }
+
 
     public int getId() {
         return id;
@@ -76,6 +82,22 @@ public class Contact implements Parcelable {
         this.url = url;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -93,30 +115,37 @@ public class Contact implements Parcelable {
         if (favorite != contact.favorite) {
             return false;
         }
-        if (!firstName.equals(contact.firstName)) {
+        if (firstName != null ? !firstName.equals(contact.firstName) : contact.firstName != null) {
             return false;
         }
-        if (!lastName.equals(contact.lastName)) {
+        if (lastName != null ? !lastName.equals(contact.lastName) : contact.lastName != null) {
             return false;
         }
-        if (!profilePic.equals(contact.profilePic)) {
+        if (profilePic != null ? !profilePic.equals(contact.profilePic) : contact.profilePic != null) {
             return false;
         }
-        return url.equals(contact.url);
+        if (url != null ? !url.equals(contact.url) : contact.url != null) {
+            return false;
+        }
+        if (email != null ? !email.equals(contact.email) : contact.email != null) {
+            return false;
+        }
+        return phoneNumber != null ? phoneNumber.equals(contact.phoneNumber) : contact.phoneNumber == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
-        result = 31 * result + profilePic.hashCode();
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (profilePic != null ? profilePic.hashCode() : 0);
         result = 31 * result + (favorite ? 1 : 0);
-        result = 31 * result + url.hashCode();
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
-
 
     public static final class Builder {
         private int id;
@@ -125,6 +154,8 @@ public class Contact implements Parcelable {
         private String profilePic;
         private boolean favorite;
         private String url;
+        private String email;
+        private String phoneNumber;
 
         public Builder() {
         }
@@ -159,11 +190,20 @@ public class Contact implements Parcelable {
             return this;
         }
 
+        public Builder email(String val) {
+            email = val;
+            return this;
+        }
+
+        public Builder phoneNumber(String val) {
+            phoneNumber = val;
+            return this;
+        }
+
         public Contact build() {
             return new Contact(this);
         }
     }
-
 
     @Override
     public int describeContents() {
@@ -178,6 +218,8 @@ public class Contact implements Parcelable {
         dest.writeString(this.profilePic);
         dest.writeByte(this.favorite ? (byte) 1 : (byte) 0);
         dest.writeString(this.url);
+        dest.writeString(this.email);
+        dest.writeString(this.phoneNumber);
     }
 
     protected Contact(Parcel in) {
@@ -187,6 +229,8 @@ public class Contact implements Parcelable {
         this.profilePic = in.readString();
         this.favorite = in.readByte() != 0;
         this.url = in.readString();
+        this.email = in.readString();
+        this.phoneNumber = in.readString();
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {

@@ -16,4 +16,9 @@ public class InMemoryDataSource implements DataSource {
     public Observable<List<Contact>> getAllContact() {
         throw new IllegalStateException("Not yet implemented");
     }
+
+    @Override
+    public Observable<Contact> getContactDetails(String id) {
+        throw new IllegalStateException("Not yet implemented");
+    }
 }

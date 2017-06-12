@@ -27,4 +27,9 @@ public class DataManager implements DataSource {
     public Observable<List<Contact>> getAllContact() {
         return remoteDataSource.getAllContact();
     }
+
+    @Override
+    public Observable<Contact> getContactDetails(String id) {
+        return remoteDataSource.getContactDetails(id);
+    }
 }
