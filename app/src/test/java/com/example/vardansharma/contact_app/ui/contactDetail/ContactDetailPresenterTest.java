@@ -83,6 +83,19 @@ public class ContactDetailPresenterTest {
         verify(screen).hideLoading();
     }
 
+    @Test
+    public void shouldHideLoadingInCaseOfFailure() {
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.error(new Exception()));
+
+        presenter.getContactDetail("1");
+
+        TestObserver testObserver = dataSource.getContactDetails("1").test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).hideLoading();
+    }
+
     @After
     public void tearDown() throws Exception {
 
