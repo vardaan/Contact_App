@@ -73,6 +73,11 @@ public class ContactListPresenter implements ContactListContract.Presenter {
     }
 
     @Override
+    public void onContactClicked(Contact contact) {
+        screen.launchContactDetail(contact);
+    }
+
+    @Override
     public void detachView() {
         compositeDisposable.clear();
     }

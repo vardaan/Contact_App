@@ -21,11 +21,14 @@ public interface ContactListContract {
         void showErrorMessage();
 
         void showNetworkError();
+
+        void launchContactDetail(Contact contact);
     }
 
     interface Presenter extends BasePresenter {
 
         void getAllContacts();
 
+        void onContactClicked(Contact contact);
     }
 }

@@ -47,6 +47,10 @@ public class ContactListPresenterTest {
     ArgumentCaptor<List<Contact>> captor;
 
 
+    @Captor
+    ArgumentCaptor<Contact>contactArgumentCaptor;
+
+
     @Mock
     private DataSource dataSource;
 
@@ -175,6 +179,15 @@ public class ContactListPresenterTest {
 
         verify(screen).showNetworkError();
 
+    }
+
+    @Test
+    public void shouldGoToContactDetailWhenContactItemIsClicked(){
+        Contact contact =FakeContactData.vardan;
+        presenter.onContactClicked(contact);
+
+        verify(screen).launchContactDetail(contactArgumentCaptor.capture());
+        Assert.assertEquals(contactArgumentCaptor.getValue(),contact);
     }
 
 }

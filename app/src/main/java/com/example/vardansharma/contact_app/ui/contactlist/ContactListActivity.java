@@ -133,4 +133,9 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
                 .setMessage(R.string.error_msg_unable_to_contact)
                 .setTitle(R.string.error_msg_network_error_title).show();
     }
+
+    @Override
+    public void launchContactDetail(Contact contact) {
+
+    }
 }
