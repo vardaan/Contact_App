@@ -3,6 +3,7 @@
           package="com.example.vardansharma.contact_app">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".ContactsApp"
         android:allowBackup="true"
@@ -17,6 +18,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.contactDetail.ContactDetailActivity">
         </activity>
     </application>
 

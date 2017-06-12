@@ -24,10 +24,11 @@ import butterknife.ButterKnife;
 class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactVH> {
 
     private final List<Contact> contacts;
+    private onContactClicked callback;
 
-    ContactListAdapter(List<Contact> contacts) {
+    ContactListAdapter(List<Contact> contacts, onContactClicked callback) {
         this.contacts = contacts;
-
+        this.callback = callback;
     }
 
     @Override
@@ -42,6 +43,7 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.Contact
         vh.contactName.setText(getFormattedName(contact));
         vh.contactType.setVisibility(position == 0 ? View.VISIBLE : View.INVISIBLE);
         vh.letterIcon.setLetter(contact.getFirstName(), position);
+        vh.itemView.setOnClickListener(v -> callback.onContactClicked(contact));
     }
 
     @NonNull
@@ -68,5 +70,9 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.Contact
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    interface onContactClicked {
+        void onContactClicked(Contact contact);
     }
 }

@@ -1,10 +1,13 @@
 package com.example.vardansharma.contact_app.data.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.squareup.moshi.Json;
 
 // Won't require so much using data classes in kotlin
-public class Contact {
+public class Contact implements Parcelable {
 
     private int id;
     @Json (name = "first_name")
@@ -160,4 +163,41 @@ public class Contact {
             return new Contact(this);
         }
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.firstName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.profilePic);
+        dest.writeByte(this.favorite ? (byte) 1 : (byte) 0);
+        dest.writeString(this.url);
+    }
+
+    protected Contact(Parcel in) {
+        this.id = in.readInt();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.profilePic = in.readString();
+        this.favorite = in.readByte() != 0;
+        this.url = in.readString();
+    }
+
+    public static final Creator<Contact> CREATOR = new Creator<Contact>() {
+        @Override
+        public Contact createFromParcel(Parcel source) {
+            return new Contact(source);
+        }
+
+        @Override
+        public Contact[] newArray(int size) {
+            return new Contact[size];
+        }
+    };
 }

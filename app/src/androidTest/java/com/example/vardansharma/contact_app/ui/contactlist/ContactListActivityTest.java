@@ -2,6 +2,8 @@ package com.example.vardansharma.contact_app.ui.contactlist;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,6 +14,7 @@ import com.example.vardansharma.contact_app.RxIdlingResource;
 import com.example.vardansharma.contact_app.TestComponentRule;
 import com.example.vardansharma.contact_app.assertions.RecyclerViewItemCountAssertion;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.ui.contactDetail.ContactDetailActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +32,11 @@ import io.reactivex.Observable;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.Espresso.unregisterIdlingResources;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.times;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -111,7 +118,7 @@ public class ContactListActivityTest {
 
 
     @Test
-    public void shouldShowNetworkErrorMessageInCaseOfNetworkFailure(){
+    public void shouldShowNetworkErrorMessageInCaseOfNetworkFailure() {
         when(component.getMockDataManager()
                 .getAllContact())
                 .thenReturn(Observable.error(new IOException()));
@@ -121,6 +128,27 @@ public class ContactListActivityTest {
         onView(withText(R.string.error_msg_network_error_title)).check(matches(isDisplayed()));
 
     }
+
+    @Test
+    public void shouldLaunchContactDetailWhenContactItemIsClicked() {
+        when(component.getMockDataManager()
+                .getAllContact())
+                .thenReturn(Observable.just(FakeContactData.getContactList()));
+
+        mActivityRule.launchActivity(new Intent());
+
+        Intents.init();
+
+        onView(withId(R.id.contact_list_rv))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+
+        intended(hasComponent(ContactDetailActivity.class.getName()));
+        intended(hasComponent(ContactDetailActivity.class.getName()), times(1));
+
+        Intents.release();
+    }
+
     @After
     public void tearDown() throws Exception {
         unregisterIdlingResources(rxIdlingResource);

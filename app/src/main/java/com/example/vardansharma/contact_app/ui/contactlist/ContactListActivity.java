@@ -17,6 +17,7 @@ import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.base.BaseActivity;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.ui.contactDetail.ContactDetailActivity;
 import com.example.vardansharma.contact_app.utils.Utils;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContactListActivity extends BaseActivity implements ContactListContract.Screen {
+public class ContactListActivity extends BaseActivity implements ContactListContract.Screen, ContactListAdapter.onContactClicked {
     @Inject
     ContactListContract.Presenter presenter;// private fields won't be injected
     @BindView (R.id.contact_list_no_Data)
@@ -118,7 +119,7 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
 
     @Override
     public void showData(List<Contact> contacts) {
-        recyclerView.setAdapter(new ContactListAdapter(contacts));
+        recyclerView.setAdapter(new ContactListAdapter(contacts, this));
     }
 
     @Override
@@ -136,6 +137,11 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
 
     @Override
     public void launchContactDetail(Contact contact) {
+        startActivity(ContactDetailActivity.createIntent(this, contact));
+    }
 
+    @Override
+    public void onContactClicked(Contact contact) {
+        presenter.onContactClicked(contact);
     }
 }
