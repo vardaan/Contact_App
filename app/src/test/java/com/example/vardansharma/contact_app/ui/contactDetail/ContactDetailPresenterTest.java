@@ -1,18 +1,24 @@
 package com.example.vardansharma.contact_app.ui.contactDetail;
 
+import com.example.vardansharma.contact_app.FakeContactData;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import io.reactivex.Observable;
 import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -22,6 +28,9 @@ import static org.mockito.Mockito.when;
 public class ContactDetailPresenterTest {
     @Mock
     private DataSource dataSource;
+
+    @Captor
+    ArgumentCaptor<String> argumentCaptor;
 
     @Mock
     ContactDetailContract.Screen screen;
@@ -43,11 +52,35 @@ public class ContactDetailPresenterTest {
 
     @Test
     public void shouldShowLoadingWhenContactDetailIsFetched() {
-        when(dataSource.getAllContact()).thenReturn(Observable.empty());
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.empty());
 
         presenter.getContactDetail("1");
 
         verify(screen).showLoading();
+    }
+
+    @Test
+    public void shouldCallDataSourceWhenContactsDetailsFetched() {
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.empty());
+        final String contactId = "1";
+        presenter.getContactDetail(contactId);
+
+        verify(dataSource).getContactDetails(argumentCaptor.capture());
+        Assert.assertEquals(argumentCaptor.getValue(), contactId);
+    }
+
+
+    @Test
+    public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.monica));
+
+        presenter.getContactDetail("1");
+
+        TestObserver testObserver = dataSource.getContactDetails("1").test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).hideLoading();
     }
 
     @After
