@@ -4,4 +4,7 @@
     <string name="loading_msg">Please wait...</string>
     <string name="contacts">Contacts</string>
     <string name="search">Search</string>
+    <string name="error_msg_network_error_title">Network Error</string>
+    <string name="error_msg_unable_to_contact">Unable to contact the server</string>
+    <string name="error_msg_unknown_error">Unknown Error</string>
 </resources>

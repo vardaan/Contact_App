@@ -21,6 +21,7 @@ import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -108,6 +109,18 @@ public class ContactListActivityTest {
         onView(withId(R.id.contact_list_rv)).check(new RecyclerViewItemCountAssertion(contactList.size()));
     }
 
+
+    @Test
+    public void shouldShowNetworkErrorMessageInCaseOfNetworkFailure(){
+        when(component.getMockDataManager()
+                .getAllContact())
+                .thenReturn(Observable.error(new IOException()));
+
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withText(R.string.error_msg_network_error_title)).check(matches(isDisplayed()));
+
+    }
     @After
     public void tearDown() throws Exception {
         unregisterIdlingResources(rxIdlingResource);

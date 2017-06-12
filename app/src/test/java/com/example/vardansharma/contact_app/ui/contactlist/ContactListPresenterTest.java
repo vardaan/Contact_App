@@ -13,6 +13,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +153,28 @@ public class ContactListPresenterTest {
 
         testObserver.awaitTerminalEvent();
 
-        verify(screen).showErrorScreen();
+        verify(screen).showErrorMessage();
+
+        verify(screen,never()).showNetworkError();
     }
+
+
+    @Test
+    public void shouldShowNetworkErrorInCaseOfNetworkFailure() {
+        when(dataSource.getAllContact()).thenReturn(Observable.error(new IOException()));
+
+        presenter.getAllContacts();
+
+        TestObserver testObserver = dataSource.getAllContact().test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).showNetworkError();
+
+        verify(screen,never()).showErrorMessage();
+
+        verify(screen).showNetworkError();
+
+    }
+
 }

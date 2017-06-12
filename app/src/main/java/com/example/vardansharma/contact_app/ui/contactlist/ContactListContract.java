@@ -18,7 +18,9 @@ public interface ContactListContract {
 
         void showData(List<Contact> contacts);
 
-        void showErrorScreen();
+        void showErrorMessage();
+
+        void showNetworkError();
     }
 
     interface Presenter extends BasePresenter {

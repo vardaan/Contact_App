@@ -3,6 +3,7 @@ package com.example.vardansharma.contact_app.ui.contactlist;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -55,7 +56,13 @@ public class ContactListPresenter implements ContactListContract.Presenter {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         screen.hideLoading();
-                        screen.showErrorScreen();
+
+                        if(e instanceof IOException){
+                            screen.showNetworkError();
+                        }
+                        else{
+                            screen.showErrorMessage();
+                        }
                     }
 
                     @Override

@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
@@ -120,7 +122,15 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
     }
 
     @Override
-    public void showErrorScreen() {
+    public void showErrorMessage() {
+        Toast.makeText(this, R.string.error_msg_unknown_error, Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void showNetworkError() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setMessage(R.string.error_msg_unable_to_contact)
+                .setTitle(R.string.error_msg_network_error_title).show();
     }
 }
