@@ -13,6 +13,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
+
 import io.reactivex.Observable;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.observers.TestObserver;
@@ -111,6 +113,25 @@ public class ContactDetailPresenterTest {
         verify(screen).showErrorMessage();
 
         verify(screen, never()).showNetworkError();
+    }
+
+
+    @Test
+    public void shouldShowNetworkErrorInCaseOfNetworkFailure() {
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.error(new IOException()));
+
+        presenter.getContactDetail("1");
+
+        TestObserver testObserver = dataSource.getContactDetails("1").test();
+
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).showNetworkError();
+
+        verify(screen, never()).showErrorMessage();
+
+        verify(screen).showNetworkError();
+
     }
 
     @After

@@ -3,6 +3,8 @@ package com.example.vardansharma.contact_app.ui.contactDetail;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,7 +50,12 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         view.hideLoading();
-                        view.showErrorMessage();
+                        if (e instanceof IOException) {
+                            view.showNetworkError();
+                        }
+                        else {
+                            view.showErrorMessage();
+                        }
                     }
 
                     @Override
