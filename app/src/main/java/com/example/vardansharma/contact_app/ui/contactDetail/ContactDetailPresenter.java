@@ -27,4 +27,8 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     public void detachView() {
 
     }
+
+    public void getContactDetail(String contactId) {
+        view.showLoading();
+    }
 }
