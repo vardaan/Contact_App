@@ -19,10 +19,15 @@ public interface ContactDetailContract {
         void showContactDetail(Contact contact);
 
         void launchPhoneApp(String phoneNumber);
+
+        void launchEmailApp(String email);
     }
 
     interface Presenter extends BasePresenter {
 
         void onPhoneButtonClicked(String phoneNum);
+
+        void onEmailButtonClicked(String email);
+
     }
 }

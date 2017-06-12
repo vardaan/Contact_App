@@ -89,4 +89,9 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     }
 
+    @Override
+    public void launchEmailApp(String email) {
+
+    }
+
 }

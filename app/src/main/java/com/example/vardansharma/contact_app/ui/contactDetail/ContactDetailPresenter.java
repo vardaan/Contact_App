@@ -69,4 +69,10 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     public void onPhoneButtonClicked(String phoneNum) {
         view.launchPhoneApp(phoneNum);
     }
+
+    @Override
+    public void onEmailButtonClicked(String email) {
+        view.launchEmailApp(email);
+
+    }
 }

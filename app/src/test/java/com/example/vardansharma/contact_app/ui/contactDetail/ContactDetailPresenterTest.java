@@ -165,6 +165,16 @@ public class ContactDetailPresenterTest {
 
     }
 
+    @Test
+    public void shouldLaunchEmailAppWhenEmailButtonIsClicked() throws Exception {
+        final String email = "vardaan1992sharma@gmail.com";
+        presenter.onEmailButtonClicked(email);
+
+        verify(screen).launchEmailApp(argumentCaptor.capture());
+        assertEquals(email, argumentCaptor.getValue());
+
+    }
+
     @After
     public void tearDown() throws Exception {
 
