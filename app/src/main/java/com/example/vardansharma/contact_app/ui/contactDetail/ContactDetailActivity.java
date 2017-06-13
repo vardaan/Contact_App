@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -98,6 +99,22 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.contact_detail_menu, menu);
         return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                contactDetailPresenter.onShareButtonClicked();
+                break;
+            case R.id.action_edit:
+                break;
+            case R.id.action_favourite:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -194,6 +211,10 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void shareContact(Contact contact) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, contact.getPhoneNumber());
+        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
 
     }
 
