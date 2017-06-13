@@ -218,4 +218,9 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     }
 
+    @Override
+    public void launchEditContactScreen(Contact contact) {
+
+    }
+
 }

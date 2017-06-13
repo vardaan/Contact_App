@@ -29,6 +29,8 @@ public interface ContactDetailContract {
         void showCopyToClipBoardMessage();
 
         void shareContact(Contact contact);
+
+        void launchEditContactScreen(Contact contact);
     }
 
     interface Presenter extends BasePresenter {
@@ -46,5 +48,7 @@ public interface ContactDetailContract {
         void onEmailLongPress(String email);
 
         void onShareButtonClicked();
+
+        void onEditButtonClicked();
     }
 }

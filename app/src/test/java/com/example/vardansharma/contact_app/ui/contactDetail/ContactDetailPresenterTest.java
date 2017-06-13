@@ -216,6 +216,23 @@ public class ContactDetailPresenterTest {
 
     }
 
+    @Test
+    public void shouldLaunchEditScreenOnEditButtonClick() {
+
+        final String contactId = "1";
+        final Contact monica = FakeContactData.monica;
+        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(monica));
+
+        presenter.getContactDetail(contactId);
+
+        TestObserver testObserver = dataSource.getContactDetails(contactId).test();
+
+        testObserver.awaitTerminalEvent();
+        presenter.onEditButtonClicked();
+        verify(screen).launchEditContactScreen(contactArgumentCaptor.capture());
+        assertEquals(contactArgumentCaptor.getValue(), monica);
+    }
+
     @After
     public void tearDown() throws Exception {
 

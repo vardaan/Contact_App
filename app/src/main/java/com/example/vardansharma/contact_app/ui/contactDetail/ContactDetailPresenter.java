@@ -107,6 +107,13 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     }
 
     @Override
+    public void onEditButtonClicked() {
+        if (contact != null) {
+            view.launchEditContactScreen(contact);
+        }
+    }
+
+    @Override
     public void detachView() {
         compositeDisposable.clear();
     }
