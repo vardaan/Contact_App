@@ -186,7 +186,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     }
 
     @Override
-    public void showCopyToKeyBoardMessage() {
+    public void showCopyToClipBoardMessage() {
+        Toast.makeText(this, R.string.copied_to_clip_board, Toast.LENGTH_LONG).show();
     }
 
     @Override

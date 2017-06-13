@@ -26,7 +26,7 @@ public interface ContactDetailContract {
 
         void copyToClipboard(String input);
 
-        void showCopyToKeyBoardMessage();
+        void showCopyToClipBoardMessage();
 
         void shareContact(Contact contact);
     }

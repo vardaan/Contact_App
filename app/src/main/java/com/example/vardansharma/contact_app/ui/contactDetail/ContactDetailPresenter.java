@@ -90,13 +90,13 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     @Override
     public void onPhoneNumberLongPress(String phoneNum) {
         view.copyToClipboard(phoneNum);
-        view.showCopyToKeyBoardMessage();
+        view.showCopyToClipBoardMessage();
     }
 
     @Override
     public void onEmailLongPress(String email) {
         view.copyToClipboard(email);
-        view.showCopyToKeyBoardMessage();
+        view.showCopyToClipBoardMessage();
     }
 
     @Override

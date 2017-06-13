@@ -193,7 +193,7 @@ public class ContactDetailPresenterTest {
         presenter.onPhoneNumberLongPress(phoneNum);
 
         verify(screen).copyToClipboard(argumentCaptor.capture());
-        verify(screen).showCopyToKeyBoardMessage();
+        verify(screen).showCopyToClipBoardMessage();
         assertEquals(phoneNum, argumentCaptor.getValue());
     }
 
@@ -204,7 +204,7 @@ public class ContactDetailPresenterTest {
         presenter.onEmailLongPress(email);
 
         verify(screen).copyToClipboard(argumentCaptor.capture());
-        verify(screen).showCopyToKeyBoardMessage();
+        verify(screen).showCopyToClipBoardMessage();
         assertEquals(email, argumentCaptor.getValue());
     }
 
