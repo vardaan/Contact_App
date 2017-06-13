@@ -19,9 +19,12 @@ import io.reactivex.Observable;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.registerIdlingResources;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -62,4 +65,14 @@ public class ContactDetailActivityTest {
         onView(withId(R.id.action_favourite)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void shouldFinishOnBackPress() {
+        when(component.getMockDataManager()
+                .getContactDetails(anyString()))
+                .thenReturn(Observable.just(FakeContactData.angeline));
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withContentDescription(R.string.navigate_up)).perform(click());
+        assertTrue(mActivityRule.getActivity().isFinishing());
+    }
 }

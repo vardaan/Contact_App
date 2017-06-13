@@ -40,6 +40,7 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     private void initDI() {
