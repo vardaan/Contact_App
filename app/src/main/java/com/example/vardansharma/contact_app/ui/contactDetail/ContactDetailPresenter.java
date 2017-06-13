@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -21,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     private final DataSource dataSource;
     private final ContactDetailContract.Screen view;
+    private CompositeDisposable compositeDisposable;
     @Nullable
     private Contact contact;
 
@@ -29,6 +31,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     public ContactDetailPresenter(ContactDetailContract.Screen screen, DataSource dataSource) {
         this.view = screen;
         this.dataSource = dataSource;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -36,10 +39,6 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
 
     }
 
-    @Override
-    public void detachView() {
-
-    }
 
     @Override
     public void getContactDetail(String contactId) {
@@ -106,5 +105,10 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
         if (contact != null) {
             view.shareContact(contact);
         }
+    }
+
+    @Override
+    public void detachView() {
+        compositeDisposable.clear();
     }
 }
