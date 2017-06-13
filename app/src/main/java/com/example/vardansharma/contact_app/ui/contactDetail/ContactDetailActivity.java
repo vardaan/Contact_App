@@ -98,4 +98,19 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     public void launchMessageApp(String capture) {
     }
 
+    @Override
+    public void copyToClipboard(String input) {
+
+    }
+
+    @Override
+    public void showCopyToKeyBoardMessage() {
+
+    }
+
+    @Override
+    public void shareContact(Contact contact) {
+
+    }
+
 }

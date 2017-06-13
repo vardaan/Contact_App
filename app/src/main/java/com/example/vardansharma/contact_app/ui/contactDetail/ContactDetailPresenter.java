@@ -1,5 +1,7 @@
 package com.example.vardansharma.contact_app.ui.contactDetail;
 
+import android.support.annotation.Nullable;
+
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
@@ -19,6 +21,9 @@ import io.reactivex.schedulers.Schedulers;
 public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     private final DataSource dataSource;
     private final ContactDetailContract.Screen view;
+    @Nullable
+    private Contact contact;
+
 
     @Inject
     public ContactDetailPresenter(ContactDetailContract.Screen screen, DataSource dataSource) {
@@ -43,10 +48,12 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<Contact>() {
+
                     @Override
                     public void onNext(@NonNull Contact contact) {
                         view.hideLoading();
                         view.showContactDetail(contact);
+                        ContactDetailPresenter.this.contact = contact;
                     }
 
                     @Override
@@ -80,5 +87,24 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     @Override
     public void onMessageButtonClicked(String phoneNum) {
         view.launchMessageApp(phoneNum);
+    }
+
+    @Override
+    public void onPhoneNumberLongPress(String phoneNum) {
+        view.copyToClipboard(phoneNum);
+        view.showCopyToKeyBoardMessage();
+    }
+
+    @Override
+    public void onEmailLongPress(String email) {
+        view.copyToClipboard(email);
+        view.showCopyToKeyBoardMessage();
+    }
+
+    @Override
+    public void onShareButtonClicked() {
+        if (contact != null) {
+            view.shareContact(contact);
+        }
     }
 }

@@ -23,6 +23,12 @@ public interface ContactDetailContract {
         void launchEmailApp(String email);
 
         void launchMessageApp(String capture);
+
+        void copyToClipboard(String input);
+
+        void showCopyToKeyBoardMessage();
+
+        void shareContact(Contact contact);
     }
 
     interface Presenter extends BasePresenter {
@@ -34,5 +40,11 @@ public interface ContactDetailContract {
         void onEmailButtonClicked(String email);
 
         void onMessageButtonClicked(String phoneNum);
+
+        void onPhoneNumberLongPress(String phoneNum);
+
+        void onEmailLongPress(String email);
+
+        void onShareButtonClicked();
     }
 }

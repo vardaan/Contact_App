@@ -186,6 +186,36 @@ public class ContactDetailPresenterTest {
 
     }
 
+    @Test
+    public void shouldCopyPhoneNumberToClipBoardOnLongPressPhoneNumber() {
+        final String phoneNum = "9501168453";
+
+        presenter.onPhoneNumberLongPress(phoneNum);
+
+        verify(screen).copyToClipboard(argumentCaptor.capture());
+        verify(screen).showCopyToKeyBoardMessage();
+        assertEquals(phoneNum, argumentCaptor.getValue());
+    }
+
+    @Test
+    public void shouldCopyEmailToClipBoardOnLongPressEmail() {
+        final String email = "vardaan1992sharma@gmail.com";
+
+        presenter.onEmailLongPress(email);
+
+        verify(screen).copyToClipboard(argumentCaptor.capture());
+        verify(screen).showCopyToKeyBoardMessage();
+        assertEquals(email, argumentCaptor.getValue());
+    }
+
+
+    @Test
+    public void shouldShareContactOnShareButtonClick() throws Exception {
+        presenter.onShareButtonClicked();
+        verify(screen).shareContact(FakeContactData.vardan);
+
+    }
+
     @After
     public void tearDown() throws Exception {
 
