@@ -141,7 +141,10 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
         phoneNumText.setText(contact.getPhoneNumber());
         emailText.setText(contact.getEmail());
         userName.setText(Utils.getDisplayName(contact));
-        Picasso.with(this).load(Utils.getProfileUrl(contact.getProfilePic())).into(userImage);
+        Picasso.with(this)
+                .load(Utils.getProfileUrl(contact.getProfilePic()))
+                .placeholder(R.drawable.ic_profile_placeholder)
+                .into(userImage);
         phoneNumText.setOnLongClickListener(v -> {
             contactDetailPresenter.onPhoneNumberLongPress(contact.getPhoneNumber());
             return true;
