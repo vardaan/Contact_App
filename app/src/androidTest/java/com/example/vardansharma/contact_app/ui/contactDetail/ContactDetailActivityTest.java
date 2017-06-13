@@ -8,7 +8,10 @@ import com.example.vardansharma.contact_app.FakeContactData;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.RxIdlingResource;
 import com.example.vardansharma.contact_app.TestComponentRule;
+import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.utils.Utils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,11 +22,13 @@ import io.reactivex.Observable;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.registerIdlingResources;
+import static android.support.test.espresso.Espresso.unregisterIdlingResources;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -57,12 +62,17 @@ public class ContactDetailActivityTest {
                 .getContactDetails(anyString()))
                 .thenReturn(Observable.just(FakeContactData.monica));
 
-        mActivityRule.launchActivity(new Intent());
+        launchActivity();
 
         onView(withId(R.id.contact_detail_toolbar)).check(matches(isDisplayed()));
-
         onView(withId(R.id.action_edit)).check(matches(isDisplayed()));
         onView(withId(R.id.action_favourite)).check(matches(isDisplayed()));
+    }
+
+    private void launchActivity() {
+        final Intent startIntent = new Intent();
+        startIntent.putExtra("contact", FakeContactData.angeline);
+        mActivityRule.launchActivity(startIntent);
     }
 
     @Test
@@ -70,9 +80,29 @@ public class ContactDetailActivityTest {
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
                 .thenReturn(Observable.just(FakeContactData.angeline));
-        mActivityRule.launchActivity(new Intent());
+        launchActivity();
 
         onView(withContentDescription(R.string.navigate_up)).perform(click());
         assertTrue(mActivityRule.getActivity().isFinishing());
+    }
+
+    @Test
+    public void shouldShowCorrectDataWhenDataInSuccess() throws Exception {
+        final Contact angeline = FakeContactData.angeline;
+        when(component.getMockDataManager()
+                .getContactDetails(anyString()))
+                .thenReturn(Observable.just(angeline));
+
+        launchActivity();
+
+        onView(withId(R.id.contact_detail_phone_num_text)).check(matches(withText(angeline.getPhoneNumber())));
+        onView(withId(R.id.contact_detail_user_name)).check(matches(withText(Utils.getDisplayName(angeline))));
+        onView(withId(R.id.contact_detail_email_text)).check(matches(withText(angeline.getEmail())));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        unregisterIdlingResources(rxIdlingResource);
+
     }
 }

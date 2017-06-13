@@ -23,7 +23,7 @@ public class ContactDetailModule {
         return screen;
     }
     @Provides
-    public ContactDetailContract.Presenter providePresenter(DataSource dataSource,
+    public ContactDetailPresenter providePresenter(DataSource dataSource,
                                                             ContactDetailContract.Screen screen) {
         return new ContactDetailPresenter(screen, dataSource);
     }

@@ -17,7 +17,9 @@ public class FakeContactData {
             .firstName("angeline")
             .lastName("jolie")
             .id(1)
+            .email("angeline@gmail.com")
             .profilePic("")
+            .phoneNumber("9612121212")
             .url("")
             .build();
     public static final Contact brad = new Contact.Builder()

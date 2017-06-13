@@ -4,14 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -40,6 +46,10 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     TextView emailText;
     @BindView (R.id.contact_detail_user_name)
     TextView userName;
+    @BindView (R.id.contact_detail_progress_bar)
+    ProgressBar progressBar;
+    @BindView (R.id.user_info_container)
+    CardView infoContainer;
     private ContactDetailComponent component;
 
     public static Intent createIntent(Context context, Contact contact) {
@@ -56,7 +66,12 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        infoContainer.setVisibility(View.GONE);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        contactDetailPresenter.attachView();
+
+        final Contact contact = getIntent().getParcelableExtra(EXTRA_CONTACT);
+        contactDetailPresenter.getContactDetail(String.valueOf(contact.getId()));
     }
 
     private void initDI() {
@@ -67,6 +82,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
                 .applicationComponent(contactApp.getAppComponent())
                 .contactDetailModule(new ContactDetailModule(this))
                 .build();
+        component.inject(this);
+
     }
 
 
@@ -84,12 +101,12 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void showLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -104,17 +121,22 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void showErrorMessage() {
-
+        Toast.makeText(this, R.string.error_msg_unable_to_contact, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showNetworkError() {
-
+        Toast.makeText(this, R.string.error_msg_no_internet, Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     public void showContactDetail(Contact contact) {
-
+        infoContainer.setVisibility(View.VISIBLE);
+        phoneNumText.setText(contact.getPhoneNumber());
+        emailText.setText(contact.getEmail());
+        userName.setText(Utils.getDisplayName(contact));
+        Picasso.with(this).load(Utils.getProfileUrl(contact.getProfilePic())).into(userImage);
     }
 
     @Override
@@ -128,7 +150,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     }
 
     @Override
-    public void launchMessageApp(String capture) {
+    public void launchMessageApp(String message) {
+
     }
 
     @Override

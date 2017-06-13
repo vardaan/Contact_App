@@ -43,7 +43,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     @Override
     public void getContactDetail(String contactId) {
         view.showLoading();
-        dataSource.getContactDetails(contactId)
+        compositeDisposable.add(dataSource.getContactDetails(contactId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<Contact>() {
@@ -69,7 +69,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
                     @Override
                     public void onComplete() {
                     }
-                });
+                }));
     }
 
     @Override
