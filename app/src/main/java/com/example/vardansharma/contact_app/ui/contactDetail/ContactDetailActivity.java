@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
@@ -24,6 +26,20 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     ContactDetailPresenter contactDetailPresenter;
     @BindView (R.id.contact_detail_toolbar)
     Toolbar toolbar;
+    @BindView (R.id.contact_detail_user_image)
+    ImageView userImage;
+    @BindView (R.id.contact_detail_phone_btn)
+    ImageView phoneBtn;
+    @BindView (R.id.contact_detail_phone_num_text)
+    TextView phoneNumText;
+    @BindView (R.id.contact_detail_message_btn)
+    ImageView messageBtn;
+    @BindView (R.id.contact_detail_email_btn)
+    ImageView emailBtn;
+    @BindView (R.id.contact_detail_email_text)
+    TextView emailText;
+    @BindView (R.id.contact_detail_user_name)
+    TextView userName;
     private ContactDetailComponent component;
 
     public static Intent createIntent(Context context, Contact contact) {
