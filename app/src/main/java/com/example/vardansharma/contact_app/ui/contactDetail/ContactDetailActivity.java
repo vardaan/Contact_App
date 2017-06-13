@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
@@ -11,12 +13,17 @@ import com.example.vardansharma.contact_app.data.models.Contact;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ContactDetailActivity extends AppCompatActivity implements ContactDetailContract.Screen {
 
     private static final String EXTRA_CONTACT = "contact";
 
     @Inject
     ContactDetailPresenter contactDetailPresenter;
+    @BindView (R.id.contact_detail_toolbar)
+    Toolbar toolbar;
     private ContactDetailComponent component;
 
     public static Intent createIntent(Context context, Contact contact) {
@@ -30,6 +37,9 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
         initDI();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_detail);
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
     }
 
     private void initDI() {
@@ -40,7 +50,13 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
                 .applicationComponent(contactApp.getAppComponent())
                 .contactDetailModule(new ContactDetailModule(this))
                 .build();
+    }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.contact_detail_menu, menu);
+        return true;
     }
 
     @Override

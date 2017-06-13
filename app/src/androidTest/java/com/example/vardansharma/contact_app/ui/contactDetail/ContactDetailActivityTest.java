@@ -57,7 +57,9 @@ public class ContactDetailActivityTest {
         mActivityRule.launchActivity(new Intent());
 
         onView(withId(R.id.contact_detail_toolbar)).check(matches(isDisplayed()));
-    }
 
+        onView(withId(R.id.action_edit)).check(matches(isDisplayed()));
+        onView(withId(R.id.action_favourite)).check(matches(isDisplayed()));
+    }
 
 }
