@@ -1,5 +1,7 @@
 package com.example.vardansharma.contact_app.ui.contactDetail;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -72,6 +74,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
         final Contact contact = getIntent().getParcelableExtra(EXTRA_CONTACT);
         contactDetailPresenter.getContactDetail(String.valueOf(contact.getId()));
+
+
     }
 
     private void initDI() {
@@ -137,6 +141,15 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
         emailText.setText(contact.getEmail());
         userName.setText(Utils.getDisplayName(contact));
         Picasso.with(this).load(Utils.getProfileUrl(contact.getProfilePic())).into(userImage);
+        phoneNumText.setOnLongClickListener(v -> {
+            contactDetailPresenter.onPhoneNumberLongPress(contact.getPhoneNumber());
+            return true;
+        });
+        emailText.setOnLongClickListener(v -> {
+            contactDetailPresenter.onEmailLongPress(contact.getEmail());
+            return true;
+        });
+
     }
 
     @Override
@@ -156,7 +169,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void copyToClipboard(String input) {
-
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("text", input));
     }
 
     @Override

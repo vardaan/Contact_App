@@ -1,5 +1,7 @@
 package com.example.vardansharma.contact_app.ui.contactDetail;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
@@ -20,15 +22,18 @@ import org.junit.rules.TestRule;
 
 import io.reactivex.Observable;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.registerIdlingResources;
 import static android.support.test.espresso.Espresso.unregisterIdlingResources;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -98,6 +103,48 @@ public class ContactDetailActivityTest {
         onView(withId(R.id.contact_detail_phone_num_text)).check(matches(withText(angeline.getPhoneNumber())));
         onView(withId(R.id.contact_detail_user_name)).check(matches(withText(Utils.getDisplayName(angeline))));
         onView(withId(R.id.contact_detail_email_text)).check(matches(withText(angeline.getEmail())));
+    }
+
+
+    @Test
+    public void shouldCopyPhoneNumberWhenClickedOnPhoneText() {
+        final Contact angeline = FakeContactData.angeline;
+        when(component.getMockDataManager()
+                .getContactDetails(anyString()))
+                .thenReturn(Observable.just(angeline));
+
+        launchActivity();
+
+        onView(withId(R.id.contact_detail_phone_num_text)).perform(longClick());
+
+
+        getInstrumentation().runOnMainSync(() -> {
+            ClipboardManager clipboardManager = (ClipboardManager) mActivityRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            assertEquals(clipboardManager.getPrimaryClip().getItemAt(0).getText(), angeline.getPhoneNumber());
+        });
+
+
+    }
+
+
+    @Test
+    public void shouldCopyEmailWhenClickedOnEmailText() {
+        final Contact angeline = FakeContactData.angeline;
+        when(component.getMockDataManager()
+                .getContactDetails(anyString()))
+                .thenReturn(Observable.just(angeline));
+
+        launchActivity();
+
+        onView(withId(R.id.contact_detail_email_text)).perform(longClick());
+
+
+        getInstrumentation().runOnMainSync(() -> {
+            ClipboardManager clipboardManager = (ClipboardManager) mActivityRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            assertEquals(clipboardManager.getPrimaryClip().getItemAt(0).getText(), angeline.getEmail());
+        });
+
+
     }
 
     @After

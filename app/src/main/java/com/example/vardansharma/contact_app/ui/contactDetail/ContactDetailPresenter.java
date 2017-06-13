@@ -80,7 +80,6 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     @Override
     public void onEmailButtonClicked(String email) {
         view.launchEmailApp(email);
-
     }
 
     @Override
