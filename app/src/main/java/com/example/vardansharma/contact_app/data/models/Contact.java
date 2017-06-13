@@ -20,6 +20,7 @@ public class Contact implements Parcelable {
     private String url;
 
     private String email;
+    @Json (name = "phone_number")
     private String phoneNumber;
 
     private Contact(Builder builder) {

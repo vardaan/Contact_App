@@ -71,6 +71,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
         setSupportActionBar(toolbar);
         infoContainer.setVisibility(View.GONE);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        toolbar.setTitle("");
+        getSupportActionBar().setTitle("");
         contactDetailPresenter.attachView();
 
         final Contact contact = getIntent().getParcelableExtra(EXTRA_CONTACT);

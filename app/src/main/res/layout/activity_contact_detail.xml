@@ -9,7 +9,6 @@
     tools:context="com.example.vardansharma.contact_app.ui.contactDetail.ContactDetailActivity"
     >
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,6 +24,7 @@
                 android:id="@+id/contact_detail_user_image"
                 android:layout_width="match_parent"
                 android:layout_height="216dp"
+                android:scaleType="fitXY"
                 tools:background="#f0f"/>
 
             <android.support.v7.widget.Toolbar
@@ -127,10 +127,10 @@
                         android:id="@+id/contact_detail_email_btn"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_marginTop="12dp"
                         android:background="?selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:padding="12dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/ic_email"/>
 
 
@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="22dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toEndOf="@+id/contact_detail_email_btn"
                         android:layout_toRightOf="@+id/contact_detail_email_btn"
                         tools:text="vardaan1992sharma@gmail.com"/>
@@ -165,7 +165,8 @@
     <ProgressBar
         android:id="@+id/contact_detail_progress_bar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
 </FrameLayout>
 
