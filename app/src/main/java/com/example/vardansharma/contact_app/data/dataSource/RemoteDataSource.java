@@ -29,6 +29,6 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public Observable<Contact> getContactDetails(String id) {
-        throw new IllegalStateException("Not yet implemented");
+        return contactsApiService.getContactDetail(id);
     }
 }

@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -149,22 +150,30 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
             contactDetailPresenter.onEmailLongPress(contact.getEmail());
             return true;
         });
-
+        phoneBtn.setOnClickListener(v -> contactDetailPresenter.onPhoneButtonClicked(contact.getPhoneNumber()));
+        messageBtn.setOnClickListener(v -> contactDetailPresenter.onMessageButtonClicked(contact.getPhoneNumber()));
+        emailBtn.setOnClickListener(v -> contactDetailPresenter.onEmailButtonClicked(contact.getEmail()));
     }
 
     @Override
     public void launchPhoneApp(String phoneNumber) {
-
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        startActivity(intent);
     }
 
     @Override
     public void launchEmailApp(String email) {
-
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", email, null));
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent_chooser_text)));
     }
 
     @Override
-    public void launchMessageApp(String message) {
-
+    public void launchMessageApp(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setData(Uri.parse("smsto:" + phoneNumber));
+        startActivity(intent);
     }
 
     @Override
@@ -175,7 +184,6 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void showCopyToKeyBoardMessage() {
-
     }
 
     @Override
