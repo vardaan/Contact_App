@@ -16,4 +16,9 @@
     <string name="error_msg_no_internet">Check your internet connection</string>
     <string name="email_intent_chooser_text">Send email...</string>
     <string name="copied_to_clip_board">Copied to clipboard</string>
+    <string name="add_new_contact">Add a new contact</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_phone">Phone</string>
+    <string name="hint_email">Email</string>
+    <string name="done">DONE</string>
 </resources>

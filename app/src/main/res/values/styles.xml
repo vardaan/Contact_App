@@ -9,7 +9,11 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="ContactList" parent="AppTheme">
+    <style name="AddOrEditContact" parent="AppTheme">
+        <item name="colorPrimary">#0288D1</item>
+        <item name="colorPrimaryDark">#0277BD</item>
+        <item name="colorAccent">#0288D1</item>
+        <item name="android:textColorSecondary">#737373</item>
     </style>
 
 </resources>
