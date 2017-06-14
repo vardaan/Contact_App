@@ -243,7 +243,7 @@ public class ContactDetailPresenterTest {
         final String contactId = "1";
         final Contact bella = FakeContactData.bella;
         when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(bella));
-        presenter.onFavouriteButtonClicked(true);
+        presenter.onFavouriteButtonClicked();
 
         verify(dataSource).updateFavourite(argumentCaptor.capture(), booleanArgumentCaptor.capture());
         assertEquals(argumentCaptor.getValue(), String.valueOf(bella.getId()));
@@ -261,7 +261,7 @@ public class ContactDetailPresenterTest {
 
         testObserver.awaitTerminalEvent();
 
-        presenter.onFavouriteButtonClicked(true);
+        presenter.onFavouriteButtonClicked();
 
         TestObserver testObserver1 = dataSource.updateFavourite("121", true).test();
         testObserver1.awaitTerminalEvent();
@@ -280,7 +280,7 @@ public class ContactDetailPresenterTest {
 
         testObserver.awaitTerminalEvent();
 
-        presenter.onFavouriteButtonClicked(true);
+        presenter.onFavouriteButtonClicked();
 
         TestObserver testObserver1 = dataSource.updateFavourite("121", true).test();
         testObserver1.awaitTerminalEvent();

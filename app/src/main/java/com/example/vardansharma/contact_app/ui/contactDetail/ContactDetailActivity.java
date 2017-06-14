@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +57,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     @BindView(R.id.user_info_container)
     CardView infoContainer;
     private ContactDetailComponent component;
+    private Menu menu;
+    private boolean isFavourite;
 
     public static Intent createIntent(Context context, Contact contact) {
         Intent intent = new Intent(context, ContactDetailActivity.class);
@@ -99,6 +102,10 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.contact_detail_menu, menu);
+        @DrawableRes int favouriteIcon = (isFavourite) ?
+                R.drawable.ic_start_white : R.drawable.ic_star_border;
+        menu.getItem(0).setIcon(favouriteIcon);
+        this.menu = menu;
         return true;
     }
 
@@ -113,6 +120,7 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
                 contactDetailPresenter.onEditButtonClicked();
                 break;
             case R.id.action_favourite:
+                contactDetailPresenter.onFavouriteButtonClicked();
                 break;
         }
 
@@ -174,6 +182,8 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
             contactDetailPresenter.onEmailLongPress(contact.getEmail());
             return true;
         });
+        this.isFavourite = contact.isFavorite();
+        invalidateOptionsMenu();
         phoneBtn.setOnClickListener(v -> contactDetailPresenter.onPhoneButtonClicked(contact.getPhoneNumber()));
         messageBtn.setOnClickListener(v -> contactDetailPresenter.onMessageButtonClicked(contact.getPhoneNumber()));
         emailBtn.setOnClickListener(v -> contactDetailPresenter.onEmailButtonClicked(contact.getEmail()));
@@ -229,12 +239,13 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void showUnableToUpdateFavoriteError() {
-
+        Toast.makeText(this, R.string.error_msg_unknown_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void updateFavourite(Contact contact) {
-
+        this.isFavourite = contact.isFavorite();
+        invalidateOptionsMenu();
     }
 
 }

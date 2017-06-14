@@ -119,12 +119,12 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     }
 
     @Override
-    public void onFavouriteButtonClicked(boolean favourite) {
+    public void onFavouriteButtonClicked() {
         if (contact != null) {
             compositeDisposable.add(dataSource
-                    .updateFavourite(String.valueOf(contact.getId()), favourite)
-                    .observeOn(Schedulers.io())
-                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .updateFavourite(String.valueOf(contact.getId()), !contact.isFavorite())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableObserver<Contact>() {
                         @Override
                         public void onNext(Contact contact) {

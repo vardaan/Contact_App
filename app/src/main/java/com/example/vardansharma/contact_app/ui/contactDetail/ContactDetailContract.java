@@ -55,6 +55,6 @@ public interface ContactDetailContract {
 
         void onEditButtonClicked();
 
-        void onFavouriteButtonClicked(boolean favourite);
+        void onFavouriteButtonClicked();
     }
 }
