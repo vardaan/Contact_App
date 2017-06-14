@@ -1,7 +1,10 @@
 package com.example.vardansharma.contact_app.data.dataSource;
 
+import android.text.TextUtils;
+
 import com.example.vardansharma.contact_app.data.models.Contact;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -12,13 +15,47 @@ import io.reactivex.Observable;
  */
 
 public class InMemoryDataSource implements DataSource {
+    private List<Contact> contacts = new ArrayList<>();
+
     @Override
     public Observable<List<Contact>> getAllContact() {
-        throw new IllegalStateException("Not yet implemented");
+        return Observable.just(contacts);
     }
 
     @Override
     public Observable<Contact> getContactDetails(String id) {
-        throw new IllegalStateException("Not yet implemented");
+        for (Contact contact : contacts) {
+            if (TextUtils.equals(String.valueOf(contact.getId()), id)) {
+                return Observable.just(contact);
+            }
+        }
+        throw new IllegalStateException("Not correct id");
+    }
+
+    public void updateContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public void updateSingleContact(Contact contact) {
+        for (int i = 0; i < contacts.size(); i++) {
+            Contact contact1 = contacts.get(i);
+            if (contact.getId() == contact1.getId()) {
+                contact.setHasFullContactDetails(true);
+                contacts.set(i, contact);
+            }
+        }
+    }
+
+    public boolean hasFullContactData(String id) {
+        for (Contact contact : contacts) {
+            if (TextUtils.equals(String.valueOf(contact.getId()), id)) {
+                return contact.isHasFullContactDetails();
+            }
+        }
+        return false;
+    }
+
+    public boolean hasData() {
+        return contacts.size() > 0;
     }
 }

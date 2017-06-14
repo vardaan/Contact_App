@@ -23,6 +23,9 @@ public class Contact implements Parcelable {
     @Json (name = "phone_number")
     private String phoneNumber;
 
+    private boolean  hasFullContactDetails;
+
+
     private Contact(Builder builder) {
         setId(builder.id);
         setFirstName(builder.firstName);
@@ -34,6 +37,13 @@ public class Contact implements Parcelable {
         phoneNumber = builder.phoneNumber;
     }
 
+    public boolean isHasFullContactDetails() {
+        return hasFullContactDetails;
+    }
+
+    public void setHasFullContactDetails(boolean hasFullContactDetails) {
+        this.hasFullContactDetails = hasFullContactDetails;
+    }
 
     public int getId() {
         return id;
@@ -206,6 +216,7 @@ public class Contact implements Parcelable {
         }
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -221,6 +232,7 @@ public class Contact implements Parcelable {
         dest.writeString(this.url);
         dest.writeString(this.email);
         dest.writeString(this.phoneNumber);
+        dest.writeByte(this.hasFullContactDetails ? (byte) 1 : (byte) 0);
     }
 
     protected Contact(Parcel in) {
@@ -232,6 +244,7 @@ public class Contact implements Parcelable {
         this.url = in.readString();
         this.email = in.readString();
         this.phoneNumber = in.readString();
+        this.hasFullContactDetails = in.readByte() != 0;
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {

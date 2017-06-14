@@ -1,5 +1,7 @@
 package com.example.vardansharma.contact_app.data;
 
+import android.util.Log;
+
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.dataSource.InMemoryDataSource;
 import com.example.vardansharma.contact_app.data.dataSource.RemoteDataSource;
@@ -17,6 +19,7 @@ import io.reactivex.Observable;
 public class DataManager implements DataSource {
     private final RemoteDataSource remoteDataSource;
     private final InMemoryDataSource inMemoryDataSource;
+    private static final String TAG = "DataManager";
 
     public DataManager(InMemoryDataSource inMemoryDataSource, RemoteDataSource remoteDataSource) {
         this.inMemoryDataSource = inMemoryDataSource;
@@ -25,11 +28,21 @@ public class DataManager implements DataSource {
 
     @Override
     public Observable<List<Contact>> getAllContact() {
-        return remoteDataSource.getAllContact();
+        if (inMemoryDataSource.hasData()) {
+            Log.d(TAG, "getAllContact() called");
+            return inMemoryDataSource.getAllContact();
+        }
+        return remoteDataSource.getAllContact()
+                .doOnNext(inMemoryDataSource::updateContacts);// update cache
     }
 
     @Override
     public Observable<Contact> getContactDetails(String id) {
-        return remoteDataSource.getContactDetails(id);
+        if (inMemoryDataSource.hasFullContactData(id)) {
+            Log.d(TAG, "getContactDetails() called with: id = [" + id + "]");
+            return inMemoryDataSource.getContactDetails(id);
+        }
+        return remoteDataSource.getContactDetails(id)
+                .doOnNext(inMemoryDataSource::updateSingleContact);// update cache
     }
 }
