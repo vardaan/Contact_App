@@ -110,6 +110,7 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
                 contactDetailPresenter.onShareButtonClicked();
                 break;
             case R.id.action_edit:
+                contactDetailPresenter.onEditButtonClicked();
                 break;
             case R.id.action_favourite:
                 break;
@@ -223,8 +224,7 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void launchEditContactScreen(Contact contact) {
-        Intent intent = new Intent(this, AddOrEditContactActivity.class);
-        startActivity(intent);
+        startActivity(AddOrEditContactActivity.createIntent(this,contact));
     }
 
 }

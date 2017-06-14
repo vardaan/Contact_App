@@ -4,6 +4,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 
 import com.example.vardansharma.contact_app.FakeContactData;
@@ -11,6 +12,7 @@ import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.RxIdlingResource;
 import com.example.vardansharma.contact_app.TestComponentRule;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.ui.addoreditcontact.AddOrEditContactActivity;
 import com.example.vardansharma.contact_app.utils.Utils;
 
 import org.junit.After;
@@ -29,6 +31,9 @@ import static android.support.test.espresso.Espresso.unregisterIdlingResources;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -126,30 +131,30 @@ public class ContactDetailActivityTest {
 
     }
 
-//
-//    @Test
-//    public void shouldCopyEmailWhenClickedOnEmailText() {
-//        final Contact angeline = FakeContactData.angeline;
-//        when(component.getMockDataManager()
-//                .getContactDetails(anyString()))
-//                .thenReturn(Observable.just(angeline));
-//
-//        launchActivity();
-//
-//        onView(withId(R.id.contact_detail_email_text)).perform(longClick());
-//
-//
-//        getInstrumentation().runOnMainSync(() -> {
-//            ClipboardManager clipboardManager = (ClipboardManager) mActivityRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-//            assertEquals(clipboardManager.getPrimaryClip().getItemAt(0).getText(), angeline.getEmail());
-//            mActivityRule.getActivity().finish();
-//
-//        });
-//
-//
-//    }
-//
-//
+
+    @Test
+    public void shouldCopyEmailWhenClickedOnEmailText() {
+        final Contact angeline = FakeContactData.angeline;
+        when(component.getMockDataManager()
+                .getContactDetails(anyString()))
+                .thenReturn(Observable.just(angeline));
+
+        launchActivity();
+
+        onView(withId(R.id.contact_detail_email_text)).perform(longClick());
+
+
+        getInstrumentation().runOnMainSync(() -> {
+            ClipboardManager clipboardManager = (ClipboardManager) mActivityRule.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            assertEquals(clipboardManager.getPrimaryClip().getItemAt(0).getText(), angeline.getEmail());
+            mActivityRule.getActivity().finish();
+
+        });
+
+
+    }
+
+
 //    @Test
 //    public void shouldLaunchPhoneAppWhenClickedOnPhoneButton() {
 //        final Contact angeline = FakeContactData.angeline;
@@ -208,6 +213,24 @@ public class ContactDetailActivityTest {
 //        mActivityRule.getActivity().finish();
 //
 //    }
+
+
+    @Test
+    public void shouldLaunchEditContactScreenWhenClickedOnEditIcon() throws Exception {
+        final Contact angeline = FakeContactData.angeline;
+        when(component.getMockDataManager()
+                .getContactDetails(anyString()))
+                .thenReturn(Observable.just(angeline));
+
+        launchActivity();
+
+        Intents.init();
+        onView(withId(R.id.action_edit)).perform(click());
+
+        intended(hasComponent(AddOrEditContactActivity.class.getName()));
+        intended(hasExtra(AddOrEditContactActivity.EXTRA_CONTACT, angeline));
+        Intents.release();
+    }
 
     @After
     public void tearDown() throws Exception {
