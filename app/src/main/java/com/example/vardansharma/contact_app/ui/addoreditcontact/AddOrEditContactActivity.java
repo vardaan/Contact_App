@@ -42,4 +42,9 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
                 .build();
         component.inject(this);
     }
+
+    @Override
+    public void showInvalidFirstNameError() {
+
+    }
 }

@@ -6,8 +6,10 @@ import com.example.vardansharma.contact_app.base.BaseScreen;
 public interface AddOrEditCotactContract {
 
     interface Presenter extends BasePresenter {
+        void onSubmit(String firstName, String phone, String email);
     }
 
     interface Screen extends BaseScreen {
+        void showInvalidFirstNameError();
     }
 }
