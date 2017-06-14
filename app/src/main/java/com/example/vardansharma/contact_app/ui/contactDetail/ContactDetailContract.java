@@ -31,6 +31,10 @@ public interface ContactDetailContract {
         void shareContact(Contact contact);
 
         void launchEditContactScreen(Contact contact);
+
+        void showUnableToUpdateFavoriteError();
+
+        void updateFavourite(Contact contact);
     }
 
     interface Presenter extends BasePresenter {
@@ -50,5 +54,7 @@ public interface ContactDetailContract {
         void onShareButtonClicked();
 
         void onEditButtonClicked();
+
+        void onFavouriteButtonClicked(boolean favourite);
     }
 }

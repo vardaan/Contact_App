@@ -21,6 +21,7 @@ import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -38,6 +39,9 @@ public class ContactDetailPresenterTest {
 
     @Captor
     ArgumentCaptor<Contact> contactArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<Boolean> booleanArgumentCaptor;
 
     @Mock
     ContactDetailContract.Screen screen;
@@ -79,7 +83,7 @@ public class ContactDetailPresenterTest {
 
     @Test
     public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
-        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.monica));
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.bella));
 
         presenter.getContactDetail("1");
 
@@ -141,7 +145,7 @@ public class ContactDetailPresenterTest {
     @Test
     public void shouldShowContactDataInCaseOfSuccess() throws Exception {
         final String contactId = "1";
-        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(FakeContactData.monica));
+        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(FakeContactData.bella));
 
         presenter.getContactDetail(contactId);
 
@@ -151,7 +155,7 @@ public class ContactDetailPresenterTest {
 
         verify(screen).showContactDetail(contactArgumentCaptor.capture());
 
-        assertEquals(contactArgumentCaptor.getValue(), FakeContactData.monica);
+        assertEquals(contactArgumentCaptor.getValue(), FakeContactData.bella);
     }
 
 
@@ -220,7 +224,7 @@ public class ContactDetailPresenterTest {
     public void shouldLaunchEditScreenOnEditButtonClick() {
 
         final String contactId = "1";
-        final Contact monica = FakeContactData.monica;
+        final Contact monica = FakeContactData.bella;
         when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(monica));
 
         presenter.getContactDetail(contactId);
@@ -232,6 +236,68 @@ public class ContactDetailPresenterTest {
         verify(screen).launchEditContactScreen(contactArgumentCaptor.capture());
         assertEquals(contactArgumentCaptor.getValue(), monica);
     }
+
+
+    @Test
+    public void shouldUpdateDataSourceWhenClickedOnFavouriteButton() {
+        final String contactId = "1";
+        final Contact bella = FakeContactData.bella;
+        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(bella));
+        presenter.onFavouriteButtonClicked(true);
+
+        verify(dataSource).updateFavourite(argumentCaptor.capture(), booleanArgumentCaptor.capture());
+        assertEquals(argumentCaptor.getValue(), String.valueOf(bella.getId()));
+        assertEquals(booleanArgumentCaptor.getValue(), true);
+
+    }
+
+    @Test
+    public void shouldShowErrorMessageWhenUpdateFavouriteFails() {
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.bella));
+        when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.error(new Exception()));
+
+        presenter.getContactDetail("1");
+        TestObserver testObserver = dataSource.getContactDetails(anyString()).test();
+
+        testObserver.awaitTerminalEvent();
+
+        presenter.onFavouriteButtonClicked(true);
+
+        TestObserver testObserver1 = dataSource.updateFavourite("121", true).test();
+        testObserver1.awaitTerminalEvent();
+
+        verify(screen).showUnableToUpdateFavoriteError();
+    }
+
+
+    @Test
+    public void shouldUpdateUIWhenUpdateFavouriteSuccedds() {
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.bella));
+        when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.just(FakeContactData.bella));
+
+        presenter.getContactDetail("1");
+        TestObserver testObserver = dataSource.getContactDetails(anyString()).test();
+
+        testObserver.awaitTerminalEvent();
+
+        presenter.onFavouriteButtonClicked(true);
+
+        TestObserver testObserver1 = dataSource.updateFavourite("121", true).test();
+        testObserver1.awaitTerminalEvent();
+
+        verify(screen).updateFavourite(contactArgumentCaptor.capture());
+        assertEquals(contactArgumentCaptor.getValue(), FakeContactData.bella);
+    }
+
+
+//    @Test
+//    public void shouldShowErrorMessageWhenUpdateFavouriteFails() {
+//        when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.error(new Exception()));
+//        presenter.onFavouriteButtonClicked(true);
+//
+//        verify(screen).showUnableToUpdateFavoriteError();
+//    }
+
 
     @After
     public void tearDown() throws Exception {

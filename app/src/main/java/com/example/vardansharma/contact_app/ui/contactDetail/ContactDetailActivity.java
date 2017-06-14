@@ -224,7 +224,17 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void launchEditContactScreen(Contact contact) {
-        startActivity(AddOrEditContactActivity.createIntent(this,contact));
+        startActivity(AddOrEditContactActivity.createIntent(this, contact));
+    }
+
+    @Override
+    public void showUnableToUpdateFavoriteError() {
+
+    }
+
+    @Override
+    public void updateFavourite(Contact contact) {
+
     }
 
 }

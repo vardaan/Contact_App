@@ -48,9 +48,9 @@ public class FakeContactData {
             .profilePic("")
             .build();
 
-    public static final Contact monica = new Contact.Builder()
+    public static final Contact bella = new Contact.Builder()
             .favorite(false)
-            .firstName("monica")
+            .firstName("bella")
             .lastName("bulluci")
             .id(5)
             .profilePic("")
@@ -63,7 +63,7 @@ public class FakeContactData {
         contacts.add(brad);
         contacts.add(hugh);
         contacts.add(vardan);
-        contacts.add(monica);
+        contacts.add(bella);
 
         return contacts;
     }

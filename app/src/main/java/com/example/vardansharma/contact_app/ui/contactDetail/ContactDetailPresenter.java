@@ -26,6 +26,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     @Nullable
     private Contact contact;
 
+    private static final String TAG = "ContactDetailPresenter";
 
     @Inject
     public ContactDetailPresenter(ContactDetailContract.Screen screen, DataSource dataSource) {
@@ -60,8 +61,7 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
                         view.hideLoading();
                         if (e instanceof IOException) {
                             view.showNetworkError();
-                        }
-                        else {
+                        } else {
                             view.showErrorMessage();
                         }
                     }
@@ -116,5 +116,30 @@ public class ContactDetailPresenter implements ContactDetailContract.Presenter {
     @Override
     public void detachView() {
         compositeDisposable.clear();
+    }
+
+    @Override
+    public void onFavouriteButtonClicked(boolean favourite) {
+        if (contact != null) {
+            compositeDisposable.add(dataSource
+                    .updateFavourite(String.valueOf(contact.getId()), favourite)
+                    .observeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableObserver<Contact>() {
+                        @Override
+                        public void onNext(Contact contact) {
+                            view.updateFavourite(contact);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            view.showUnableToUpdateFavoriteError();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+                    }));
+        }
     }
 }

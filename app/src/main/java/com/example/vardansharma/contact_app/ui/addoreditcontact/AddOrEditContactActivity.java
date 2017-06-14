@@ -2,8 +2,8 @@ package com.example.vardansharma.contact_app.ui.addoreditcontact;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.data.models.Contact;
@@ -14,7 +14,7 @@ public class AddOrEditContactActivity extends AppCompatActivity {
 
     public static Intent createIntent(Context context, Contact contact) {
         Intent intent = new Intent(context, AddOrEditContactActivity.class);
-        intent.putExtra(EXTRA_CONTACT,contact);
+        intent.putExtra(EXTRA_CONTACT, contact);
         return intent;
     }
 

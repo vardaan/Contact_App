@@ -14,4 +14,6 @@ public interface DataSource {
     Observable<List<Contact>> getAllContact();
 
     Observable<Contact> getContactDetails(String id);
+
+    Observable<Contact> updateFavourite(String contactId, boolean favourite);
 }

@@ -45,4 +45,9 @@ public class DataManager implements DataSource {
         return remoteDataSource.getContactDetails(id)
                 .doOnNext(inMemoryDataSource::updateSingleContact);// update cache
     }
+
+    @Override
+    public Observable<Contact> updateFavourite(String contactId, boolean favourite) {
+        return inMemoryDataSource.updateFavourite(contactId, favourite);
+    }
 }

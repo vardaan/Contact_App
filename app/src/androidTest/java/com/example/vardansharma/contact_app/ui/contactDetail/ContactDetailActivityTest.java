@@ -70,7 +70,7 @@ public class ContactDetailActivityTest {
     public void shouldDisplayToolbarCorrectly() {
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
-                .thenReturn(Observable.just(FakeContactData.monica));
+                .thenReturn(Observable.just(FakeContactData.bella));
 
         launchActivity();
 

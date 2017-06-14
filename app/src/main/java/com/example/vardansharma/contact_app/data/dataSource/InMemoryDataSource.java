@@ -32,6 +32,19 @@ public class InMemoryDataSource implements DataSource {
         throw new IllegalStateException("Not correct id");
     }
 
+    @Override
+    public Observable<Contact> updateFavourite(String contactId, boolean favourite) {
+        for (int i = 0; i < contacts.size(); i++) {
+            Contact contact = contacts.get(i);
+            if (TextUtils.equals(String.valueOf(contact.getId()), contactId)) {
+                contact.setFavorite(favourite);
+                contacts.set(i, contact);
+                return Observable.just(contact);
+            }
+        }
+        throw new IllegalStateException("Not found in the local cache");
+    }
+
     public void updateContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
