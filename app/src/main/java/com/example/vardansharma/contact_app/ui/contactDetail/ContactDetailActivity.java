@@ -76,7 +76,9 @@ public class ContactDetailActivity extends BaseActivity implements ContactDetail
         infoContainer.setVisibility(View.GONE);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         toolbar.setTitle("");
-        getSupportActionBar().setTitle("");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+        }
         contactDetailPresenter.attachView();
 
         final Contact contact = getIntent().getParcelableExtra(EXTRA_CONTACT);
