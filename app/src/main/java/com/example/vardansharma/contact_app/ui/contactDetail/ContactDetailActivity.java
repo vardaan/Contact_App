@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.ui.addoreditcontact.AddOrEditContactActivity;
 import com.example.vardansharma.contact_app.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -188,7 +189,7 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     public void launchEmailApp(String email) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", email, null));
-        startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent_chooser_text)));
+        startActivity(emailIntent);
     }
 
     @Override
@@ -214,13 +215,14 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, contact.getPhoneNumber());
-        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share)));
+        startActivity(sharingIntent);
 
     }
 
     @Override
     public void launchEditContactScreen(Contact contact) {
-
+        Intent intent =new Intent(this, AddOrEditContactActivity.class);
+        startActivity(intent);
     }
 
 }

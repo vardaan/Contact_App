@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".ui.contactDetail.ContactDetailActivity">
         </activity>
+        <activity android:name=".ui.addoreditcontact.AddOrEditContactActivity">
+        </activity>
     </application>
 
 </manifest>
