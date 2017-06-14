@@ -57,7 +57,6 @@ public class ContactDetailActivity extends BaseActivity implements ContactDetail
     @BindView(R.id.user_info_container)
     CardView infoContainer;
     private ContactDetailComponent component;
-    private Menu menu;
     private boolean isFavourite;
 
     public static Intent createIntent(Context context, Contact contact) {
@@ -105,7 +104,6 @@ public class ContactDetailActivity extends BaseActivity implements ContactDetail
         @DrawableRes int favouriteIcon = (isFavourite) ?
                 R.drawable.ic_start_white : R.drawable.ic_star_border;
         menu.getItem(0).setIcon(favouriteIcon);
-        this.menu = menu;
         return true;
     }
 
