@@ -64,6 +64,15 @@ public class AddOrEditContactPresenterTest {
         verify(screen, never()).showInvalidFirstNameError();
     }
 
+
+    @Test
+    public void shouldShowErrorInCaseOfInvalidPhoneNumber() throws Exception {
+        presenter.onSubmit(VALID_FIRST_NAME, INVALID_LENGTH_PHONE_NUMBER, VALID_EMAIL_ADDRESS);
+
+        verify(screen).showInvalidEmailError();
+        verify(screen, never()).showInvalidFirstNameError();
+    }
+
     @After
     public void tearDown() throws Exception {
     }

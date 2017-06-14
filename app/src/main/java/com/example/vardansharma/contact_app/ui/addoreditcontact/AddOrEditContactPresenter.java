@@ -2,6 +2,8 @@ package com.example.vardansharma.contact_app.ui.addoreditcontact;
 
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 
+import java.util.regex.Pattern;
+
 class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
     private static final int VALID_FIRST_NAME_LENGTH = 3;
     private static final int VALID_EMAIL_LENGTH = 10;
@@ -27,9 +29,28 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
     public void onSubmit(String firstName, String phone, String email) {
         if (firstName == null || firstName.trim().length() <= VALID_FIRST_NAME_LENGTH) {
             screen.showInvalidFirstNameError();
-        } else if (email == null || email.trim().length() <= VALID_EMAIL_LENGTH) {// let's keep this simple for now
+        } else if (!isValidEmail(email)) {// let's keep this simple for now not using android pattern
             screen.showInvalidEmailError();
         }
 
     }
+
+    private static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public static final Pattern EMAIL_ADDRESS
+            = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
 }
