@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
+import com.example.vardansharma.contact_app.base.BaseActivity;
 import com.example.vardansharma.contact_app.data.models.Contact;
 import com.example.vardansharma.contact_app.ui.addoreditcontact.AddOrEditContactActivity;
 import com.example.vardansharma.contact_app.utils.Utils;
@@ -30,7 +30,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContactDetailActivity extends AppCompatActivity implements ContactDetailContract.Screen {
+public class ContactDetailActivity extends BaseActivity implements ContactDetailContract.Screen {
 
     private static final String EXTRA_CONTACT = "contact";
 
@@ -141,16 +141,6 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
     @Override
     public void hideLoading() {
         progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showRetry() {
-
-    }
-
-    @Override
-    public void hideRetry() {
-
     }
 
     @Override

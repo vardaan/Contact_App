@@ -29,7 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ContactListActivity extends BaseActivity implements ContactListContract.Screen, ContactListAdapter.onContactClicked {
+public class ContactListActivity extends BaseActivity implements ContactListContract.Screen,
+        ContactListAdapter.onContactClicked {
     @Inject
     ContactListContract.Presenter presenter;// private fields won't be injected
     @BindView(R.id.contact_list_no_Data)
@@ -102,16 +103,6 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
     @Override
     public void hideLoading() {
         progressDialog.hide();
-    }
-
-    @Override
-    public void showRetry() {
-
-    }
-
-    @Override
-    public void hideRetry() {
-
     }
 
     @Override
