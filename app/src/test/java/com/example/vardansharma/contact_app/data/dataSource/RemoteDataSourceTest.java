@@ -1,6 +1,6 @@
 package com.example.vardansharma.contact_app.data.dataSource;
 
-import com.example.vardansharma.contact_app.FakeContactData;
+import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.data.ContactsApiService;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
@@ -43,7 +43,7 @@ public class RemoteDataSourceTest {
     public void shouldReturnCorrectContactsWhenDataRequested() {
         remoteDataSource.getAllContact();
 
-        final List<Contact> contactList = FakeContactData.getContactList();
+        final List<Contact> contactList = TestContactData.getContactList();
 
         final Observable<List<Contact>> value = Observable.just(contactList);
         when(contactsApiService.getAllContacts()).thenReturn(value);

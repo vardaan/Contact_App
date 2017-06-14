@@ -8,7 +8,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.vardansharma.contact_app.FakeContactData;
+import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.RxIdlingResource;
 import com.example.vardansharma.contact_app.TestComponentRule;
@@ -74,7 +74,7 @@ public class ContactListActivityTest {
     public void shouldShowEmptyViewInCaseOfNoData() {
         when(component.getMockDataManager()
                 .getAllContact())
-                .thenReturn(Observable.just(FakeContactData.EMPTY_CONTACTS));
+                .thenReturn(Observable.just(TestContactData.EMPTY_CONTACTS));
 
         mActivityRule.launchActivity(new Intent());
         onView(withId(R.id.contact_list_no_Data)).check(matches(isDisplayed()));
@@ -84,7 +84,7 @@ public class ContactListActivityTest {
     public void shouldDisplayToolbarCorrectly() {
         when(component.getMockDataManager()
                 .getAllContact())
-                .thenReturn(Observable.just(FakeContactData.EMPTY_CONTACTS));
+                .thenReturn(Observable.just(TestContactData.EMPTY_CONTACTS));
 
         mActivityRule.launchActivity(new Intent());
 
@@ -97,7 +97,7 @@ public class ContactListActivityTest {
     public void shouldShowFAB() {
         when(component.getMockDataManager()
                 .getAllContact())
-                .thenReturn(Observable.just(FakeContactData.EMPTY_CONTACTS));
+                .thenReturn(Observable.just(TestContactData.EMPTY_CONTACTS));
 
         mActivityRule.launchActivity(new Intent());
 
@@ -106,7 +106,7 @@ public class ContactListActivityTest {
 
     @Test
     public void shouldShowCorrectNumberOfContacts() {
-        final List<Contact> contactList = FakeContactData.getContactList();
+        final List<Contact> contactList = TestContactData.getContactList();
         when(component.getMockDataManager()
                 .getAllContact())
                 .thenReturn(Observable.just(contactList));
@@ -133,7 +133,7 @@ public class ContactListActivityTest {
     public void shouldLaunchContactDetailWhenContactItemIsClicked() {
         when(component.getMockDataManager()
                 .getAllContact())
-                .thenReturn(Observable.just(FakeContactData.getContactList()));
+                .thenReturn(Observable.just(TestContactData.getContactList()));
 
         mActivityRule.launchActivity(new Intent());
 

@@ -1,6 +1,6 @@
 package com.example.vardansharma.contact_app.data;
 
-import com.example.vardansharma.contact_app.FakeContactData;
+import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.data.dataSource.InMemoryDataSource;
 import com.example.vardansharma.contact_app.data.dataSource.RemoteDataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
@@ -49,7 +49,7 @@ public class DataManagerTest {
     public void shouldReturnCorrectDataWhenContactListIsRequested() {
         dataManager.getAllContact();
 
-        final Observable<List<Contact>> value = Observable.just(FakeContactData.getContactList());
+        final Observable<List<Contact>> value = Observable.just(TestContactData.getContactList());
         when(remoteDataSource.getAllContact()).thenReturn(value);
 
         assertEquals(dataManager.getAllContact(), value);

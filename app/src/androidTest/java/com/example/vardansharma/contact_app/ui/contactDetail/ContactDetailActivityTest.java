@@ -7,7 +7,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 
-import com.example.vardansharma.contact_app.FakeContactData;
+import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.RxIdlingResource;
 import com.example.vardansharma.contact_app.TestComponentRule;
@@ -70,7 +70,7 @@ public class ContactDetailActivityTest {
     public void shouldDisplayToolbarCorrectly() {
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
-                .thenReturn(Observable.just(FakeContactData.bella));
+                .thenReturn(Observable.just(TestContactData.bella));
 
         launchActivity();
 
@@ -81,7 +81,7 @@ public class ContactDetailActivityTest {
 
     private void launchActivity() {
         final Intent startIntent = new Intent();
-        startIntent.putExtra("contact", FakeContactData.angeline);
+        startIntent.putExtra("contact", TestContactData.angeline);
         mActivityRule.launchActivity(startIntent);
     }
 
@@ -89,7 +89,7 @@ public class ContactDetailActivityTest {
     public void shouldFinishOnBackPress() {
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
-                .thenReturn(Observable.just(FakeContactData.angeline));
+                .thenReturn(Observable.just(TestContactData.angeline));
         launchActivity();
 
         onView(withContentDescription(R.string.navigate_up)).perform(click());
@@ -98,7 +98,7 @@ public class ContactDetailActivityTest {
 
     @Test
     public void shouldShowCorrectDataWhenDataInSuccess() throws Exception {
-        final Contact angeline = FakeContactData.angeline;
+        final Contact angeline = TestContactData.angeline;
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
                 .thenReturn(Observable.just(angeline));
@@ -113,7 +113,7 @@ public class ContactDetailActivityTest {
 
     @Test
     public void shouldCopyPhoneNumberWhenClickedOnPhoneText() {
-        final Contact angeline = FakeContactData.angeline;
+        final Contact angeline = TestContactData.angeline;
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
                 .thenReturn(Observable.just(angeline));
@@ -134,7 +134,7 @@ public class ContactDetailActivityTest {
 
     @Test
     public void shouldCopyEmailWhenClickedOnEmailText() {
-        final Contact angeline = FakeContactData.angeline;
+        final Contact angeline = TestContactData.angeline;
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
                 .thenReturn(Observable.just(angeline));
@@ -217,7 +217,7 @@ public class ContactDetailActivityTest {
 
     @Test
     public void shouldLaunchEditContactScreenWhenClickedOnEditIcon() throws Exception {
-        final Contact angeline = FakeContactData.angeline;
+        final Contact angeline = TestContactData.angeline;
         when(component.getMockDataManager()
                 .getContactDetails(anyString()))
                 .thenReturn(Observable.just(angeline));

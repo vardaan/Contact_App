@@ -9,7 +9,7 @@ import java.util.List;
  * Created by vardansharma on 06/06/17.
  */
 
-public class FakeContactData {
+public class TestContactData {
 
     public static List<Contact> EMPTY_CONTACTS = new ArrayList<>();
     public static final Contact angeline = new Contact.Builder()

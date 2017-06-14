@@ -1,6 +1,6 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
-import com.example.vardansharma.contact_app.FakeContactData;
+import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
@@ -89,7 +89,7 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
-        when(dataSource.getAllContact()).thenReturn(Observable.just(FakeContactData.getContactList()));
+        when(dataSource.getAllContact()).thenReturn(Observable.just(TestContactData.getContactList()));
 
         presenter.getAllContacts();
 
@@ -128,7 +128,7 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldDisplayDataInCaseOfSuccess() {
-        final List<Contact> contactList = FakeContactData.getContactList();
+        final List<Contact> contactList = TestContactData.getContactList();
 
         when(dataSource.getAllContact()).thenReturn(Observable.just(contactList));
 
@@ -183,7 +183,7 @@ public class ContactListPresenterTest {
 
     @Test
     public void shouldGoToContactDetailWhenContactItemIsClicked(){
-        Contact contact =FakeContactData.vardan;
+        Contact contact = TestContactData.vardan;
         presenter.onContactClicked(contact);
 
         verify(screen).launchContactDetail(contactArgumentCaptor.capture());

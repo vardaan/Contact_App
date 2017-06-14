@@ -1,6 +1,6 @@
 package com.example.vardansharma.contact_app.ui.contactDetail;
 
-import com.example.vardansharma.contact_app.FakeContactData;
+import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
@@ -83,7 +83,7 @@ public class ContactDetailPresenterTest {
 
     @Test
     public void shouldHideLoadingInCaseOfDataFetchedSuccess() {
-        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.bella));
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(TestContactData.bella));
 
         presenter.getContactDetail("1");
 
@@ -145,7 +145,7 @@ public class ContactDetailPresenterTest {
     @Test
     public void shouldShowContactDataInCaseOfSuccess() throws Exception {
         final String contactId = "1";
-        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(FakeContactData.bella));
+        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(TestContactData.bella));
 
         presenter.getContactDetail(contactId);
 
@@ -155,7 +155,7 @@ public class ContactDetailPresenterTest {
 
         verify(screen).showContactDetail(contactArgumentCaptor.capture());
 
-        assertEquals(contactArgumentCaptor.getValue(), FakeContactData.bella);
+        assertEquals(contactArgumentCaptor.getValue(), TestContactData.bella);
     }
 
 
@@ -216,7 +216,7 @@ public class ContactDetailPresenterTest {
     @Test
     public void shouldShareContactOnShareButtonClick() throws Exception {
         presenter.onShareButtonClicked();
-        verify(screen).shareContact(FakeContactData.vardan);
+        verify(screen).shareContact(TestContactData.vardan);
 
     }
 
@@ -224,7 +224,7 @@ public class ContactDetailPresenterTest {
     public void shouldLaunchEditScreenOnEditButtonClick() {
 
         final String contactId = "1";
-        final Contact monica = FakeContactData.bella;
+        final Contact monica = TestContactData.bella;
         when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(monica));
 
         presenter.getContactDetail(contactId);
@@ -241,7 +241,7 @@ public class ContactDetailPresenterTest {
     @Test
     public void shouldUpdateDataSourceWhenClickedOnFavouriteButton() {
         final String contactId = "1";
-        final Contact bella = FakeContactData.bella;
+        final Contact bella = TestContactData.bella;
         when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(bella));
         presenter.onFavouriteButtonClicked();
 
@@ -253,7 +253,7 @@ public class ContactDetailPresenterTest {
 
     @Test
     public void shouldShowErrorMessageWhenUpdateFavouriteFails() {
-        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.bella));
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(TestContactData.bella));
         when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.error(new Exception()));
 
         presenter.getContactDetail("1");
@@ -272,8 +272,8 @@ public class ContactDetailPresenterTest {
 
     @Test
     public void shouldUpdateUIWhenUpdateFavouriteSuccedds() {
-        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(FakeContactData.bella));
-        when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.just(FakeContactData.bella));
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(TestContactData.bella));
+        when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.just(TestContactData.bella));
 
         presenter.getContactDetail("1");
         TestObserver testObserver = dataSource.getContactDetails(anyString()).test();
@@ -286,7 +286,7 @@ public class ContactDetailPresenterTest {
         testObserver1.awaitTerminalEvent();
 
         verify(screen).updateFavourite(contactArgumentCaptor.capture());
-        assertEquals(contactArgumentCaptor.getValue(), FakeContactData.bella);
+        assertEquals(contactArgumentCaptor.getValue(), TestContactData.bella);
     }
 
 
