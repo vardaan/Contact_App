@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class AddOrEditContactActivity extends BaseActivity implements AddOrEditCotactContract.Screen {
 
     public static final String EXTRA_CONTACT = "contact";
+
     @BindView(R.id.add_edit_contact_toolbar)
     Toolbar toolbar;
     @BindView(R.id.add_edit_contact_camera_btn)
