@@ -21,4 +21,7 @@
     <string name="hint_phone">Phone</string>
     <string name="hint_email">Email</string>
     <string name="done">DONE</string>
+    <string name="error_msg_name_invalid">Name is invalid</string>
+    <string name="error_msg_email_invalid">Email is invalid</string>
+    <string name="error_msg_phone_invalid">Phone number is invalid</string>
 </resources>

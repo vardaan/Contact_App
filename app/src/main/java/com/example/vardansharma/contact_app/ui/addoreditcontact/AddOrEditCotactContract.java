@@ -14,6 +14,8 @@ public interface AddOrEditCotactContract {
 
         void showInvalidEmailError();
 
+        void hideAllErrors();
+
         void showInvalidPhoneNumberError();
     }
 }

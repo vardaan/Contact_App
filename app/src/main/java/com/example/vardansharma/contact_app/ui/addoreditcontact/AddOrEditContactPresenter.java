@@ -4,12 +4,16 @@ import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
 class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
     private static final int VALID_FIRST_NAME_LENGTH = 3;
     private static final int VALID_PHONE_NUMBER_LENGTH = 9;
     private final DataSource dataSource;
     private final AddOrEditCotactContract.Screen screen;
 
+
+    @Inject
     public AddOrEditContactPresenter(AddOrEditCotactContract.Screen screen, DataSource dataSource) {
         this.screen = screen;
         this.dataSource = dataSource;
@@ -27,6 +31,7 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
 
     @Override
     public void onSubmit(String firstName, String phone, String email) {
+        screen.hideAllErrors();
         if (firstName == null || firstName.trim().length() <= VALID_FIRST_NAME_LENGTH) {
             screen.showInvalidFirstNameError();
         } else if (!isValidEmail(email)) {// let's keep this simple for now not using android pattern
@@ -38,11 +43,7 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
     }
 
     private static boolean isValidEmail(CharSequence target) {
-        if (target == null) {
-            return false;
-        } else {
-            return EMAIL_ADDRESS.matcher(target).matches();
-        }
+        return target != null && EMAIL_ADDRESS.matcher(target).matches();
     }
 
     public static final Pattern EMAIL_ADDRESS

@@ -63,6 +63,7 @@
             android:tint="#888" />
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/add_edit_contact_name_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -98,6 +99,7 @@
 
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/add_edit_contact_phone_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -132,6 +134,7 @@
             android:tint="#888" />
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/add_edit_contact_email_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
