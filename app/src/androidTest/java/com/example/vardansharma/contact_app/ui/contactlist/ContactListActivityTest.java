@@ -8,12 +8,13 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.RxIdlingResource;
 import com.example.vardansharma.contact_app.TestComponentRule;
+import com.example.vardansharma.contact_app.TestContactData;
 import com.example.vardansharma.contact_app.assertions.RecyclerViewItemCountAssertion;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.ui.addoreditcontact.AddOrEditContactActivity;
 import com.example.vardansharma.contact_app.ui.contactDetail.ContactDetailActivity;
 
 import org.junit.After;
@@ -47,7 +48,7 @@ import static org.mockito.Mockito.when;
  * Created by vardansharma on 08/06/17.
  */
 @LargeTest
-@RunWith (AndroidJUnit4.class)
+@RunWith(AndroidJUnit4.class)
 public class ContactListActivityTest {
 
     @Rule
@@ -145,6 +146,24 @@ public class ContactListActivityTest {
 
         intended(hasComponent(ContactDetailActivity.class.getName()));
         intended(hasComponent(ContactDetailActivity.class.getName()), times(1));
+
+        Intents.release();
+    }
+
+    @Test
+    public void shouldLaunchAddContactScreenWhenAddContactBtnIsClicked() throws Exception {
+        when(component.getMockDataManager()
+                .getAllContact())
+                .thenReturn(Observable.just(TestContactData.getContactList()));
+
+        mActivityRule.launchActivity(new Intent());
+        Intents.init();
+
+        onView(withId(R.id.contact_list_add_contact))
+                .perform(click());
+
+        intended(hasComponent(AddOrEditContactActivity.class.getName()));
+        intended(hasComponent(AddOrEditContactActivity.class.getName()), times(1));
 
         Intents.release();
     }
