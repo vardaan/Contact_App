@@ -35,25 +35,25 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Inject
     ContactDetailPresenter contactDetailPresenter;
-    @BindView (R.id.contact_detail_toolbar)
+    @BindView(R.id.contact_detail_toolbar)
     Toolbar toolbar;
-    @BindView (R.id.contact_detail_user_image)
+    @BindView(R.id.contact_detail_user_image)
     ImageView userImage;
-    @BindView (R.id.contact_detail_phone_btn)
+    @BindView(R.id.contact_detail_phone_btn)
     ImageView phoneBtn;
-    @BindView (R.id.contact_detail_phone_num_text)
+    @BindView(R.id.contact_detail_phone_num_text)
     TextView phoneNumText;
-    @BindView (R.id.contact_detail_message_btn)
+    @BindView(R.id.contact_detail_message_btn)
     ImageView messageBtn;
-    @BindView (R.id.contact_detail_email_btn)
+    @BindView(R.id.contact_detail_email_btn)
     ImageView emailBtn;
-    @BindView (R.id.contact_detail_email_text)
+    @BindView(R.id.contact_detail_email_text)
     TextView emailText;
-    @BindView (R.id.contact_detail_user_name)
+    @BindView(R.id.contact_detail_user_name)
     TextView userName;
-    @BindView (R.id.contact_detail_progress_bar)
+    @BindView(R.id.contact_detail_progress_bar)
     ProgressBar progressBar;
-    @BindView (R.id.user_info_container)
+    @BindView(R.id.user_info_container)
     CardView infoContainer;
     private ContactDetailComponent component;
 
@@ -194,8 +194,10 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void launchMessageApp(String phoneNumber) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("smsto:" + phoneNumber));
+        intent.setType("vnd.android-dir/mms-sms");
+        intent.putExtra("address", phoneNumber);
         startActivity(intent);
     }
 
@@ -221,7 +223,7 @@ public class ContactDetailActivity extends AppCompatActivity implements ContactD
 
     @Override
     public void launchEditContactScreen(Contact contact) {
-        Intent intent =new Intent(this, AddOrEditContactActivity.class);
+        Intent intent = new Intent(this, AddOrEditContactActivity.class);
         startActivity(intent);
     }
 
