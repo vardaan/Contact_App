@@ -52,4 +52,9 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
     public void showInvalidEmailError() {
 
     }
+
+    @Override
+    public void showInvalidPhoneNumberError() {
+
+    }
 }

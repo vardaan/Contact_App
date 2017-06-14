@@ -20,14 +20,14 @@ public class AddOrEditContactPresenterTest {
     private DataSource dataSource;
 
 
-    public static final String INVALID_LENGTH_FIRST_NAME = "ab";
-    public static final String INVALID_LENGTH_PHONE_NUMBER = "9501168";
-    public static final String INVALID_EMAIL_ADDRESS = "xxjs22";
+    private static final String INVALID_LENGTH_FIRST_NAME = "ab";
+    private static final String INVALID_LENGTH_PHONE_NUMBER = "9501168";
+    private static final String INVALID_EMAIL_ADDRESS = "xxjs22";
 
 
-    public static final String VALID_FIRST_NAME = "Angelina";
-    public static final String VALID_PHONE_NUMBER = "9501168453";
-    public static final String VALID_EMAIL_ADDRESS = "angelina@gmail.com";
+    private static final String VALID_FIRST_NAME = "Angelina";
+    private static final String VALID_PHONE_NUMBER = "9501168453";
+    private static final String VALID_EMAIL_ADDRESS = "angelina@gmail.com";
 
 
     @Mock
@@ -54,6 +54,7 @@ public class AddOrEditContactPresenterTest {
 
         verify(screen).showInvalidFirstNameError();
         verify(screen, never()).showInvalidEmailError();
+        verify(screen, never()).showInvalidPhoneNumberError();
     }
 
     @Test
@@ -62,6 +63,7 @@ public class AddOrEditContactPresenterTest {
 
         verify(screen).showInvalidEmailError();
         verify(screen, never()).showInvalidFirstNameError();
+        verify(screen, never()).showInvalidPhoneNumberError();
     }
 
 
@@ -69,8 +71,21 @@ public class AddOrEditContactPresenterTest {
     public void shouldShowErrorInCaseOfInvalidPhoneNumber() throws Exception {
         presenter.onSubmit(VALID_FIRST_NAME, INVALID_LENGTH_PHONE_NUMBER, VALID_EMAIL_ADDRESS);
 
-        verify(screen).showInvalidEmailError();
+        verify(screen).showInvalidPhoneNumberError();
         verify(screen, never()).showInvalidFirstNameError();
+        verify(screen, never()).showInvalidEmailError();
+
+    }
+
+
+    @Test
+    public void shouldCallDataSourceToAddContactOnSubmit() throws Exception {
+        presenter.onSubmit(VALID_FIRST_NAME, VALID_PHONE_NUMBER, VALID_EMAIL_ADDRESS);
+
+        verify(screen, never()).showInvalidFirstNameError();
+        verify(screen, never()).showInvalidEmailError();
+        verify(screen, never()).showInvalidPhoneNumberError();
+
     }
 
     @After

@@ -13,5 +13,7 @@ public interface AddOrEditCotactContract {
         void showInvalidFirstNameError();
 
         void showInvalidEmailError();
+
+        void showInvalidPhoneNumberError();
     }
 }
