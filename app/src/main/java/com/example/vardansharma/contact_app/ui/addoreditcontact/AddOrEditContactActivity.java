@@ -49,8 +49,13 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
 
     public static Intent createIntent(Context context, Contact contact) {
         Intent intent = new Intent(context, AddOrEditContactActivity.class);
-        intent.putExtra(EXTRA_CONTACT, contact);
+        if (contact != null)
+            intent.putExtra(EXTRA_CONTACT, contact);
         return intent;
+    }
+
+    public static Intent createIntent(Context context) {
+        return createIntent(context, null);
     }
 
     @Override
