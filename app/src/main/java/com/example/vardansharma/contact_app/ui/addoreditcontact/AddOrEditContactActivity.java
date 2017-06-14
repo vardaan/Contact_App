@@ -47,4 +47,9 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
     public void showInvalidFirstNameError() {
 
     }
+
+    @Override
+    public void showInvalidEmailError() {
+
+    }
 }

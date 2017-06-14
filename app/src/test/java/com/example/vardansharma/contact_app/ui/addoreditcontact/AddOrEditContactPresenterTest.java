@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 public class AddOrEditContactPresenterTest {
@@ -52,6 +53,15 @@ public class AddOrEditContactPresenterTest {
         presenter.onSubmit(INVALID_LENGTH_FIRST_NAME, VALID_PHONE_NUMBER, VALID_EMAIL_ADDRESS);
 
         verify(screen).showInvalidFirstNameError();
+        verify(screen, never()).showInvalidEmailError();
+    }
+
+    @Test
+    public void shouldShowErrorInCaseOfInvalidEmail() throws Exception {
+        presenter.onSubmit(VALID_FIRST_NAME, VALID_PHONE_NUMBER, INVALID_EMAIL_ADDRESS);
+
+        verify(screen).showInvalidEmailError();
+        verify(screen, never()).showInvalidFirstNameError();
     }
 
     @After

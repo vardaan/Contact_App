@@ -11,5 +11,7 @@ public interface AddOrEditCotactContract {
 
     interface Screen extends BaseScreen {
         void showInvalidFirstNameError();
+
+        void showInvalidEmailError();
     }
 }
