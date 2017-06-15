@@ -1,6 +1,7 @@
 package com.example.vardansharma.contact_app.ui.addoreditcontact;
 
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
+import com.example.vardansharma.contact_app.data.models.Contact;
 
 import java.util.regex.Pattern;
 
@@ -38,6 +39,12 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
             screen.showInvalidEmailError();
         } else if (phone == null || phone.trim().length() <= VALID_PHONE_NUMBER_LENGTH) {
             screen.showInvalidPhoneNumberError();
+        } else {
+            dataSource.createContact(new Contact.Builder()
+                    .phoneNumber(phone)
+                    .email(email)
+                    .firstName(firstName)
+                    .build());
         }
     }
 
@@ -45,7 +52,7 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
         return target != null && EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public static final Pattern EMAIL_ADDRESS
+    private static final Pattern EMAIL_ADDRESS
             = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +

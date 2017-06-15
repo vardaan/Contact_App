@@ -76,4 +76,8 @@ public class InMemoryDataSource implements DataSource {
     public boolean hasData() {
         return contacts.size() > 0;
     }
+
+    public void addContact(Contact contact) {
+        throw new IllegalStateException("Not yet implemented");
+    }
 }

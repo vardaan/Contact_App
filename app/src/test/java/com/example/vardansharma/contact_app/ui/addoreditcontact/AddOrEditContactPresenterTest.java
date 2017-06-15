@@ -1,6 +1,7 @@
 package com.example.vardansharma.contact_app.ui.addoreditcontact;
 
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
+import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -85,6 +87,8 @@ public class AddOrEditContactPresenterTest {
         verify(screen, never()).showInvalidFirstNameError();
         verify(screen, never()).showInvalidEmailError();
         verify(screen, never()).showInvalidPhoneNumberError();
+
+        verify(dataSource).createContact(any(Contact.class));
 
     }
 
