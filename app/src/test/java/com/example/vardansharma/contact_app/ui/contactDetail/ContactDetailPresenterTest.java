@@ -1,12 +1,13 @@
 package com.example.vardansharma.contact_app.ui.contactDetail;
 
 import com.example.vardansharma.contact_app.TestContactData;
+import com.example.vardansharma.contact_app.TrampolineSchedulerRule;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -16,9 +17,7 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 
 import io.reactivex.Observable;
-import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyBoolean;
@@ -47,11 +46,15 @@ public class ContactDetailPresenterTest {
     ContactDetailContract.Screen screen;
     private ContactDetailPresenter presenter;
 
-    @BeforeClass
-    public static void setUpScheduler() {
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler(
-                __ -> Schedulers.trampoline());
-    }
+    @Rule
+    public TrampolineSchedulerRule trampolineSchedulerRule = new TrampolineSchedulerRule();
+
+
+//    @BeforeClass
+//    public static void setUpScheduler() {
+//        RxAndroidPlugins.setInitMainThreadSchedulerHandler(
+//                __ -> Schedulers.trampoline());
+//    }
 
 
     @Before
@@ -87,10 +90,6 @@ public class ContactDetailPresenterTest {
 
         presenter.getContactDetail("1");
 
-        TestObserver testObserver = dataSource.getContactDetails("1").test();
-
-        testObserver.awaitTerminalEvent();
-
         verify(screen).hideLoading();
     }
 
@@ -99,10 +98,6 @@ public class ContactDetailPresenterTest {
         when(dataSource.getContactDetails(anyString())).thenReturn(Observable.error(new Exception()));
 
         presenter.getContactDetail("1");
-
-        TestObserver testObserver = dataSource.getContactDetails("1").test();
-
-        testObserver.awaitTerminalEvent();
 
         verify(screen).hideLoading();
     }
@@ -113,10 +108,6 @@ public class ContactDetailPresenterTest {
         when(dataSource.getContactDetails(anyString())).thenReturn(Observable.error(new Exception()));
 
         presenter.getContactDetail("1");
-
-        TestObserver testObserver = dataSource.getContactDetails("1").test();
-
-        testObserver.awaitTerminalEvent();
 
         verify(screen).showErrorMessage();
 
@@ -129,10 +120,6 @@ public class ContactDetailPresenterTest {
         when(dataSource.getContactDetails(anyString())).thenReturn(Observable.error(new IOException()));
 
         presenter.getContactDetail("1");
-
-        TestObserver testObserver = dataSource.getContactDetails("1").test();
-
-        testObserver.awaitTerminalEvent();
 
         verify(screen).showNetworkError();
 
@@ -148,10 +135,6 @@ public class ContactDetailPresenterTest {
         when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(TestContactData.bella));
 
         presenter.getContactDetail(contactId);
-
-        TestObserver testObserver = dataSource.getContactDetails(contactId).test();
-
-        testObserver.awaitTerminalEvent();
 
         verify(screen).showContactDetail(contactArgumentCaptor.capture());
 
@@ -215,9 +198,12 @@ public class ContactDetailPresenterTest {
 
     @Test
     public void shouldShareContactOnShareButtonClick() throws Exception {
+        final Contact monica = TestContactData.bella;
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(monica));
+        presenter.getContactDetail("1");
         presenter.onShareButtonClicked();
-        verify(screen).shareContact(TestContactData.vardan);
-
+        verify(screen).shareContact(contactArgumentCaptor.capture());
+        assertEquals(contactArgumentCaptor.getValue(), monica);
     }
 
     @Test
@@ -229,9 +215,6 @@ public class ContactDetailPresenterTest {
 
         presenter.getContactDetail(contactId);
 
-        TestObserver testObserver = dataSource.getContactDetails(contactId).test();
-
-        testObserver.awaitTerminalEvent();
         presenter.onEditButtonClicked();
         verify(screen).launchEditContactScreen(contactArgumentCaptor.capture());
         assertEquals(contactArgumentCaptor.getValue(), monica);
@@ -240,15 +223,13 @@ public class ContactDetailPresenterTest {
 
     @Test
     public void shouldUpdateDataSourceWhenClickedOnFavouriteButton() {
-        final String contactId = "1";
         final Contact bella = TestContactData.bella;
-        when(dataSource.getContactDetails(contactId)).thenReturn(Observable.just(bella));
+        when(dataSource.getContactDetails(anyString())).thenReturn(Observable.just(bella));
+        presenter.getContactDetail("1");
+        when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.just(bella));
         presenter.onFavouriteButtonClicked();
 
-        verify(dataSource).updateFavourite(argumentCaptor.capture(), booleanArgumentCaptor.capture());
-        assertEquals(argumentCaptor.getValue(), String.valueOf(bella.getId()));
-        assertEquals(booleanArgumentCaptor.getValue(), true);
-
+        verify(screen).updateFavourite(contactArgumentCaptor.capture());
     }
 
     @Test
@@ -257,9 +238,6 @@ public class ContactDetailPresenterTest {
         when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.error(new Exception()));
 
         presenter.getContactDetail("1");
-        TestObserver testObserver = dataSource.getContactDetails(anyString()).test();
-
-        testObserver.awaitTerminalEvent();
 
         presenter.onFavouriteButtonClicked();
 
@@ -276,9 +254,6 @@ public class ContactDetailPresenterTest {
         when(dataSource.updateFavourite(anyString(), anyBoolean())).thenReturn(Observable.just(TestContactData.bella));
 
         presenter.getContactDetail("1");
-        TestObserver testObserver = dataSource.getContactDetails(anyString()).test();
-
-        testObserver.awaitTerminalEvent();
 
         presenter.onFavouriteButtonClicked();
 

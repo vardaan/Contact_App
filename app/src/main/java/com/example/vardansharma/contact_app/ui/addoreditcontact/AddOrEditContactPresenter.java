@@ -75,7 +75,7 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
 
                         @Override
                         public void onComplete() {
-
+                            Timber.i("hello");
                         }
                     }));
         }

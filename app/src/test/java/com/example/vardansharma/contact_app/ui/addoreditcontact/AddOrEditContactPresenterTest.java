@@ -1,23 +1,20 @@
 package com.example.vardansharma.contact_app.ui.addoreditcontact;
 
+import com.example.vardansharma.contact_app.TestContactData;
+import com.example.vardansharma.contact_app.TrampolineSchedulerRule;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import io.reactivex.Observable;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,6 +23,8 @@ public class AddOrEditContactPresenterTest {
     @Mock
     private DataSource dataSource;
 
+    @Rule
+    public TrampolineSchedulerRule trampolineSchedulerRule = new TrampolineSchedulerRule();
 
     private static final String INVALID_LENGTH_FIRST_NAME = "ab";
     private static final String INVALID_LENGTH_PHONE_NUMBER = "9501168";
@@ -41,11 +40,11 @@ public class AddOrEditContactPresenterTest {
     AddOrEditCotactContract.Screen screen;
     private AddOrEditContactPresenter presenter;
 
-    @BeforeClass
-    public static void setUpScheduler() {
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler(
-                __ -> Schedulers.trampoline());
-    }
+//    @BeforeClass
+//    public static void setUpScheduler() {
+//        RxAndroidPlugins.setInitMainThreadSchedulerHandler(
+//                __ -> Schedulers.trampoline());
+//    }
 
 
     @Before
@@ -87,6 +86,7 @@ public class AddOrEditContactPresenterTest {
 
     @Test
     public void shouldCallDataSourceToAddContactOnSubmit() throws Exception {
+        when(dataSource.createContact(any(Contact.class))).thenReturn(Observable.just(TestContactData.bella));
         presenter.onSubmit(VALID_FIRST_NAME, VALID_PHONE_NUMBER, VALID_EMAIL_ADDRESS);
 
         verify(screen, never()).showInvalidFirstNameError();
@@ -99,11 +99,11 @@ public class AddOrEditContactPresenterTest {
 
     @Test
     public void shouldShowErrorWhenErrorCreatingContact() {
-        when(dataSource.updateFavourite(anyString(),
-                anyBoolean())).thenReturn(Observable.error(new Exception()));
+        when(dataSource.createContact(any(Contact.class))).thenReturn(Observable.error(new Exception()));
 
-        TestObserver testObserver = dataSource.updateFavourite("1", false).test();
-        testObserver.awaitTerminalEvent();
+        presenter.onSubmit(VALID_FIRST_NAME, VALID_PHONE_NUMBER, VALID_EMAIL_ADDRESS);
+//        TestObserver testObserver = dataSource.createContact(TestContactData.angeline).test();
+//        testObserver.awaitTerminalEvent();
 
         verify(screen).hideLoading();
         verify(screen).showContactFailToSaveError();

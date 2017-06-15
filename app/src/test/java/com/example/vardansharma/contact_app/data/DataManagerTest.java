@@ -1,11 +1,13 @@
 package com.example.vardansharma.contact_app.data;
 
 import com.example.vardansharma.contact_app.TestContactData;
+import com.example.vardansharma.contact_app.TrampolineSchedulerRule;
 import com.example.vardansharma.contact_app.data.dataSource.InMemoryDataSource;
 import com.example.vardansharma.contact_app.data.dataSource.RemoteDataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -30,6 +32,10 @@ public class DataManagerTest {
     RemoteDataSource remoteDataSource;
 
     private DataManager dataManager;
+
+    @Rule
+    TrampolineSchedulerRule trampolineSchedulerRule = new TrampolineSchedulerRule();
+
 
     @Before
     public void setUp() throws Exception {

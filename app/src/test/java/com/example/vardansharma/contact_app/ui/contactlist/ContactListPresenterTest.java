@@ -1,12 +1,13 @@
 package com.example.vardansharma.contact_app.ui.contactlist;
 
 import com.example.vardansharma.contact_app.TestContactData;
+import com.example.vardansharma.contact_app.TrampolineSchedulerRule;
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -18,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -48,21 +46,18 @@ public class ContactListPresenterTest {
 
 
     @Captor
-    ArgumentCaptor<Contact>contactArgumentCaptor;
+    ArgumentCaptor<Contact> contactArgumentCaptor;
 
 
     @Mock
     private DataSource dataSource;
 
+    @Rule
+    public TrampolineSchedulerRule trampolineSchedulerRule = new TrampolineSchedulerRule();
+
     @Mock
     ContactListContract.Screen screen;
     private ContactListPresenter presenter;
-
-    @BeforeClass
-    public static void setUpScheduler(){
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler(
-                __ -> Schedulers.trampoline());
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -93,10 +88,6 @@ public class ContactListPresenterTest {
 
         presenter.getAllContacts();
 
-        TestObserver testObserver = dataSource.getAllContact().test();
-
-        testObserver.awaitTerminalEvent();
-
         verify(screen).hideLoading();
     }
 
@@ -106,10 +97,6 @@ public class ContactListPresenterTest {
 
         presenter.getAllContacts();
 
-        TestObserver testObserver = dataSource.getAllContact().test();
-
-        testObserver.awaitTerminalEvent();
-
         verify(screen).hideLoading();
     }
 
@@ -118,10 +105,6 @@ public class ContactListPresenterTest {
         when(dataSource.getAllContact()).thenReturn(Observable.just(new ArrayList<>()));
 
         presenter.getAllContacts();
-
-        TestObserver testObserver = dataSource.getAllContact().test();
-
-        testObserver.awaitTerminalEvent();
 
         verify(screen).showEmptyScreen();
     }
@@ -133,10 +116,6 @@ public class ContactListPresenterTest {
         when(dataSource.getAllContact()).thenReturn(Observable.just(contactList));
 
         presenter.getAllContacts();
-
-        TestObserver testObserver = dataSource.getAllContact().test();
-
-        testObserver.awaitTerminalEvent();
 
         verify(screen, never()).showEmptyScreen();
 
@@ -153,13 +132,13 @@ public class ContactListPresenterTest {
 
         presenter.getAllContacts();
 
-        TestObserver testObserver = dataSource.getAllContact().test();
-
-        testObserver.awaitTerminalEvent();
+//        TestObserver testObserver = dataSource.getAllContact().test();
+//
+//        testObserver.awaitTerminalEvent();
 
         verify(screen).showErrorMessage();
 
-        verify(screen,never()).showNetworkError();
+        verify(screen, never()).showNetworkError();
     }
 
 
@@ -169,25 +148,21 @@ public class ContactListPresenterTest {
 
         presenter.getAllContacts();
 
-        TestObserver testObserver = dataSource.getAllContact().test();
-
-        testObserver.awaitTerminalEvent();
-
         verify(screen).showNetworkError();
 
-        verify(screen,never()).showErrorMessage();
+        verify(screen, never()).showErrorMessage();
 
         verify(screen).showNetworkError();
 
     }
 
     @Test
-    public void shouldGoToContactDetailWhenContactItemIsClicked(){
+    public void shouldGoToContactDetailWhenContactItemIsClicked() {
         Contact contact = TestContactData.vardan;
         presenter.onContactClicked(contact);
 
         verify(screen).launchContactDetail(contactArgumentCaptor.capture());
-        Assert.assertEquals(contactArgumentCaptor.getValue(),contact);
+        Assert.assertEquals(contactArgumentCaptor.getValue(), contact);
     }
 
 }
