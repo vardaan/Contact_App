@@ -45,6 +45,11 @@ public class InMemoryDataSource implements DataSource {
         throw new IllegalStateException("Not found in the local cache");
     }
 
+    @Override
+    public Observable<Contact> createContact(Contact contact) {
+        throw new IllegalStateException("not yet implemented");
+    }
+
     public void updateContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }

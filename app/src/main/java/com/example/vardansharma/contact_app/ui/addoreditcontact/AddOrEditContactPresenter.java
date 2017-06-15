@@ -39,7 +39,6 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
         } else if (phone == null || phone.trim().length() <= VALID_PHONE_NUMBER_LENGTH) {
             screen.showInvalidPhoneNumberError();
         }
-
     }
 
     private static boolean isValidEmail(CharSequence target) {

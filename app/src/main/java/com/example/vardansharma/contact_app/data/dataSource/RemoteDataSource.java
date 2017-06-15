@@ -38,4 +38,9 @@ public class RemoteDataSource implements DataSource {
         return contactsApiService.updateFavourite(new UpdateFavouriteRequest(favourite), contactId);
     }
 
+    @Override
+    public Observable<Contact> createContact(Contact contact) {
+        throw new IllegalStateException("Not yet implemented");
+    }
+
 }
