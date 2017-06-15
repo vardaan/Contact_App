@@ -1,6 +1,7 @@
 package com.example.vardansharma.contact_app.data.dataSource;
 
 import com.example.vardansharma.contact_app.data.ContactsApiService;
+import com.example.vardansharma.contact_app.data.CreateUserRequest;
 import com.example.vardansharma.contact_app.data.UpdateFavouriteRequest;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
@@ -40,7 +41,13 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public Observable<Contact> createContact(Contact contact) {
-        throw new IllegalStateException("Not yet implemented");
+        final CreateUserRequest createUserRequest = new CreateUserRequest.Builder()
+                .email(contact.getEmail())
+                .firstName(contact.getFirstName())
+                .lastName(contact.getFirstName())
+                .phoneNumber(contact.getPhoneNumber())
+                .build();
+        return contactsApiService.createContact(createUserRequest);
     }
 
 }

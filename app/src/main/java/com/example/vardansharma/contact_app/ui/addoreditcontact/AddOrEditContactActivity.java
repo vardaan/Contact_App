@@ -9,7 +9,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
@@ -25,21 +27,21 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
 
     public static final String EXTRA_CONTACT = "contact";
 
-    @BindView(R.id.add_edit_contact_toolbar)
+    @BindView (R.id.add_edit_contact_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.add_edit_contact_camera_btn)
+    @BindView (R.id.add_edit_contact_camera_btn)
     ImageView cameraBtn;
-    @BindView(R.id.add_edit_contact_name)
+    @BindView (R.id.add_edit_contact_name)
     TextInputEditText name;
-    @BindView(R.id.add_edit_contact_phone)
+    @BindView (R.id.add_edit_contact_phone)
     TextInputEditText phone;
-    @BindView(R.id.add_edit_contact_email)
+    @BindView (R.id.add_edit_contact_email)
     TextInputEditText email;
-    @BindView(R.id.add_edit_contact_name_input_layout)
+    @BindView (R.id.add_edit_contact_name_input_layout)
     TextInputLayout nameInputLayout;
-    @BindView(R.id.add_edit_contact_phone_input_layout)
+    @BindView (R.id.add_edit_contact_phone_input_layout)
     TextInputLayout phoneInputLayout;
-    @BindView(R.id.add_edit_contact_email_input_layout)
+    @BindView (R.id.add_edit_contact_email_input_layout)
     TextInputLayout emailInputLayout;
 
     @Inject
@@ -50,8 +52,9 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
 
     public static Intent createIntent(Context context, Contact contact) {
         Intent intent = new Intent(context, AddOrEditContactActivity.class);
-        if (contact != null)
+        if (contact != null) {
             intent.putExtra(EXTRA_CONTACT, contact);
+        }
         return intent;
     }
 
@@ -67,6 +70,15 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        email.setOnEditorActionListener((v, keyCode, event) -> {
+            switch (keyCode) {
+                case EditorInfo.IME_ACTION_DONE:
+                    sendDataToPresenter();
+                    return true;
+            }
+            return false;
+        });
 
         progressDialog = new ProgressDialog(this);
     }
@@ -109,6 +121,7 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
 
     @Override
     public void showLoading() {
+        progressDialog.setMessage(getString(R.string.saving_contact));
         progressDialog.show();
     }
 
@@ -138,5 +151,20 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
     @Override
     public void showInvalidPhoneNumberError() {
         phoneInputLayout.setError(getString(R.string.error_msg_phone_invalid));
+    }
+
+    @Override
+    public void showContactSavedMessage() {
+        Toast.makeText(this, R.string.contacts_saved_successfully, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showContactFailToSaveError() {
+        Toast.makeText(this, R.string.error_msg_unknown_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void finishScreen() {
+        this.onBackPressed();
     }
 }

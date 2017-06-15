@@ -10,12 +10,17 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.reactivex.Observable;
 import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class AddOrEditContactPresenterTest {
     @Mock
@@ -91,6 +96,20 @@ public class AddOrEditContactPresenterTest {
         verify(dataSource).createContact(any(Contact.class));
 
     }
+
+    @Test
+    public void shouldShowErrorWhenErrorCreatingContact() {
+        when(dataSource.updateFavourite(anyString(),
+                anyBoolean())).thenReturn(Observable.error(new Exception()));
+
+        TestObserver testObserver = dataSource.updateFavourite("1", false).test();
+        testObserver.awaitTerminalEvent();
+
+        verify(screen).hideLoading();
+        verify(screen).showContactFailToSaveError();
+
+    }
+
 
     @After
     public void tearDown() throws Exception {

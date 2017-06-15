@@ -24,4 +24,7 @@
     <string name="error_msg_name_invalid">Name is invalid</string>
     <string name="error_msg_email_invalid">Email is invalid</string>
     <string name="error_msg_phone_invalid">Phone number is invalid</string>
+    <string name="contact_save_success">Contact saved successfully</string>
+    <string name="contacts_saved_successfully">Contact saved successfully</string>
+    <string name="saving_contact">Saving contact...</string>
 </resources>

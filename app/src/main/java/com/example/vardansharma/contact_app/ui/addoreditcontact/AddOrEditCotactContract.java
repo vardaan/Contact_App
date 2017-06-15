@@ -17,5 +17,11 @@ public interface AddOrEditCotactContract {
         void hideAllErrors();
 
         void showInvalidPhoneNumberError();
+
+        void showContactSavedMessage();
+
+        void showContactFailToSaveError();
+
+        void finishScreen();
     }
 }
