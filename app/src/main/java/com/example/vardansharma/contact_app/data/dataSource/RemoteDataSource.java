@@ -1,6 +1,7 @@
 package com.example.vardansharma.contact_app.data.dataSource;
 
 import com.example.vardansharma.contact_app.data.ContactsApiService;
+import com.example.vardansharma.contact_app.data.UpdateFavouriteRequest;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class RemoteDataSource implements DataSource {
 
     @Override
     public Observable<Contact> updateFavourite(String contactId, boolean favourite) {
-        throw new IllegalStateException("not yet implemented");
+        return contactsApiService.updateFavourite(new UpdateFavouriteRequest(favourite), contactId);
     }
+
 }

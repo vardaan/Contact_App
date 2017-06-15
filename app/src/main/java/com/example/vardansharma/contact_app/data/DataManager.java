@@ -48,6 +48,7 @@ public class DataManager implements DataSource {
 
     @Override
     public Observable<Contact> updateFavourite(String contactId, boolean favourite) {
-        return inMemoryDataSource.updateFavourite(contactId, favourite);
+        return remoteDataSource.updateFavourite(contactId, favourite)
+                .doOnNext(inMemoryDataSource::updateSingleContact);
     }
 }

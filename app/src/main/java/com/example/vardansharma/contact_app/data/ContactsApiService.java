@@ -5,7 +5,9 @@ import com.example.vardansharma.contact_app.data.models.Contact;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -14,9 +16,13 @@ import retrofit2.http.Path;
 
 public interface ContactsApiService {
 
-    @GET ("contacts.json")
+    @GET("contacts.json")
     Observable<List<Contact>> getAllContacts();
 
-    @GET ("contacts/{id}.json")
-    Observable<Contact> getContactDetail(@Path ("id") String id);
+    @GET("contacts/{id}.json")
+    Observable<Contact> getContactDetail(@Path("id") String id);
+
+    @PUT("contacts/{id}.json")
+    Observable<Contact> updateFavourite(@Body UpdateFavouriteRequest updateFavourite,
+                                        @Path("id") String contactId);
 }
