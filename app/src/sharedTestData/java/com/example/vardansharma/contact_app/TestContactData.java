@@ -19,6 +19,7 @@ public class TestContactData {
             .id(1)
             .email("angeline@gmail.com")
             .profilePic("")
+            .favorite(false)
             .phoneNumber("9612121212")
             .url("")
             .build();
@@ -28,6 +29,7 @@ public class TestContactData {
             .lastName("pit")
             .id(2)
             .url("")
+            .favorite(true)
             .profilePic("")
             .build();
 
@@ -36,6 +38,7 @@ public class TestContactData {
             .firstName("hugh")
             .lastName("jackman")
             .id(3)
+            .favorite(true)
             .url("")
             .profilePic("")
             .build();

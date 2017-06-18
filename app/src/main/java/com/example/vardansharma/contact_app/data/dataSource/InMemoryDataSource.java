@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -60,8 +61,21 @@ public class InMemoryDataSource implements DataSource {
             if (contact.getId() == contact1.getId()) {
                 contact.setHasFullContactDetails(true);
                 contacts.set(i, contact);
+                sortList();
             }
         }
+    }
+
+    private void sortList() {
+        Collections.sort(contacts, (left, right) -> {
+            if (left.isFavorite() && !right.isFavorite()) {
+                return -1;
+            }
+            else if (!left.isFavorite() && right.isFavorite()) {
+                return 1;
+            }
+            return left.getFirstName().compareTo(right.getFirstName());
+        });
     }
 
     public boolean hasFullContactData(String id) {
@@ -79,5 +93,6 @@ public class InMemoryDataSource implements DataSource {
 
     public void addContact(Contact contact) {
         contacts.add(contact);
+        sortList();
     }
 }

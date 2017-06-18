@@ -3,11 +3,12 @@ package com.example.vardansharma.contact_app.data.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.squareup.moshi.Json;
 
 // Won't require so much using data classes in kotlin
-public class Contact implements Parcelable {
+public class Contact implements Parcelable,Comparable {
 
     private int id;
     @Json (name = "first_name")
@@ -156,6 +157,11 @@ public class Contact implements Parcelable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        return 0;
     }
 
     public static final class Builder {

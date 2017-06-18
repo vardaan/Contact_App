@@ -53,9 +53,9 @@ String getJavaHome(String version) {
 dependencies {
 
 
-    final ESPRESSO_VERSION = '2.2.1'
+    final ESPRESSO_VERSION = '2.2.2'
     final DEXMAKER_VERSION = '1.4'
-    final RUNNER_VERSION = '0.4'
+    final RUNNER_VERSION = '0.5'
 
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -90,7 +90,14 @@ dependencies {
     androidTestCompile "com.android.support.test.espresso:espresso-intents:$ESPRESSO_VERSION"
     androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:' + rootProject.ext.daggerVersion
     androidTestCompile 'com.android.support:support-annotations:' + rootProject.ext.supportLibVersion
-    androidTestCompile "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
+    androidTestCompile ("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"){
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'appcompa-v7'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'design'
+    }
     androidTestCompile "com.android.support.test:runner:$RUNNER_VERSION"
     androidTestCompile "com.android.support.test:rules:$RUNNER_VERSION"
     androidTestCompile "com.crittercism.dexmaker:dexmaker:$DEXMAKER_VERSION"
@@ -99,8 +106,11 @@ dependencies {
     androidTestCompile("com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION") {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'appcompa-v7'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'design'
+
     }
 
     testCompile 'com.squareup.okhttp3:mockwebserver:' + rootProject.ext.mockWebserverVersion
