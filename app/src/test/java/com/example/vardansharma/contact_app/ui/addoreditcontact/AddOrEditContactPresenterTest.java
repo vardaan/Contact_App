@@ -6,9 +6,12 @@ import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.models.Contact;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -23,6 +26,8 @@ public class AddOrEditContactPresenterTest {
     @Mock
     private DataSource dataSource;
 
+    @Captor
+    ArgumentCaptor<Contact> contactArgumentCaptor;
     @Rule
     public TrampolineSchedulerRule trampolineSchedulerRule = new TrampolineSchedulerRule();
 
@@ -110,6 +115,14 @@ public class AddOrEditContactPresenterTest {
 
     }
 
+
+    @Test
+    public void shouldCallPreFillDataOnSetContact() throws Exception {
+        presenter.setContactData(TestContactData.angeline);
+
+        verify(screen).prefillData(contactArgumentCaptor.capture());
+        Assert.assertEquals(contactArgumentCaptor.getValue(), TestContactData.angeline);
+    }
 
     @After
     public void tearDown() throws Exception {
