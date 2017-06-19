@@ -1,7 +1,5 @@
 package com.example.vardansharma.contact_app.data;
 
-import android.util.Log;
-
 import com.example.vardansharma.contact_app.data.dataSource.DataSource;
 import com.example.vardansharma.contact_app.data.dataSource.InMemoryDataSource;
 import com.example.vardansharma.contact_app.data.dataSource.RemoteDataSource;
@@ -29,31 +27,34 @@ public class DataManager implements DataSource {
     @Override
     public Observable<List<Contact>> getAllContact() {
         if (inMemoryDataSource.hasData()) {
-            Log.d(TAG, "getAllContact() called");
             return inMemoryDataSource.getAllContact();
         }
         return remoteDataSource.getAllContact()
-                .doOnNext(inMemoryDataSource::updateContacts);// update cache
+                .doOnNext(inMemoryDataSource:: updateContacts);// update cache
     }
 
     @Override
     public Observable<Contact> getContactDetails(String id) {
         if (inMemoryDataSource.hasFullContactData(id)) {
-            Log.d(TAG, "getContactDetails() called with: id = [" + id + "]");
             return inMemoryDataSource.getContactDetails(id);
         }
         return remoteDataSource.getContactDetails(id)
-                .doOnNext(inMemoryDataSource::updateSingleContact);// update cache
+                .doOnNext(inMemoryDataSource:: updateSingleContact);// update cache
     }
 
     @Override
     public Observable<Contact> updateFavourite(String contactId, boolean favourite) {
         return remoteDataSource.updateFavourite(contactId, favourite)
-                .doOnNext(inMemoryDataSource::updateSingleContact);
+                .doOnNext(inMemoryDataSource:: updateSingleContact);
     }
 
     @Override
     public Observable<Contact> createContact(Contact contact) {
-        return remoteDataSource.createContact(contact).doOnNext(inMemoryDataSource::addContact);
+        return remoteDataSource.createContact(contact).doOnNext(inMemoryDataSource:: addContact);
+    }
+
+    @Override
+    public Observable<Contact> updateContact(Contact contact) {
+        return remoteDataSource.updateContact(contact).doOnNext(inMemoryDataSource:: updateContact);
     }
 }

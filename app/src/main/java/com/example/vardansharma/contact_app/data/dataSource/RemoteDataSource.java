@@ -50,4 +50,9 @@ public class RemoteDataSource implements DataSource {
         return contactsApiService.createContact(createUserRequest);
     }
 
+    @Override
+    public Observable<Contact> updateContact(Contact contact) {
+        return null;
+    }
+
 }

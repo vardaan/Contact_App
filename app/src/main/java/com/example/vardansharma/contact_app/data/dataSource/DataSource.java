@@ -18,4 +18,7 @@ public interface DataSource {
     Observable<Contact> updateFavourite(String contactId, boolean favourite);
 
     Observable<Contact> createContact(Contact contact);
+
+    Observable<Contact> updateContact(Contact contact);
+
 }

@@ -51,6 +51,11 @@ public class InMemoryDataSource implements DataSource {
         throw new IllegalStateException("not yet implemented");
     }
 
+    @Override
+    public Observable<Contact> updateContact(Contact contact) {
+        return null;
+    }
+
     public void updateContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
