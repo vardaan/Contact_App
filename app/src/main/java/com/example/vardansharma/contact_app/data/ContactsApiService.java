@@ -17,16 +17,20 @@ import retrofit2.http.Path;
 
 public interface ContactsApiService {
 
-    @GET("contacts.json")
+    @GET ("contacts.json")
     Observable<List<Contact>> getAllContacts();
 
-    @GET("contacts/{id}.json")
-    Observable<Contact> getContactDetail(@Path("id") String id);
+    @GET ("contacts/{id}.json")
+    Observable<Contact> getContactDetail(@Path ("id") String id);
 
-    @PUT("contacts/{id}.json")
+    @PUT ("contacts/{id}.json")
     Observable<Contact> updateFavourite(@Body UpdateFavouriteRequest updateFavourite,
-                                        @Path("id") String contactId);
+                                        @Path ("id") String contactId);
 
-    @POST("contacts.json")
+    @POST ("contacts.json")
     Observable<Contact> createContact(@Body CreateUserRequest createUserRequest);
+
+    @PUT ("contacts/{id}.json")
+    Observable<Contact> updateContact(@Body UpdateUserRequest updateFavourite,
+                                      @Path ("id") String contactId);
 }

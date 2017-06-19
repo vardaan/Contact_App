@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -19,6 +20,7 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
     private final DataSource dataSource;
     private final AddOrEditCotactContract.Screen screen;
     private CompositeDisposable compositeDisposable;
+    private Contact previousContactData;
 
 
     @Inject
@@ -43,42 +45,71 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
         screen.hideAllErrors();
         if (firstName == null || firstName.trim().length() <= VALID_FIRST_NAME_LENGTH) {
             screen.showInvalidFirstNameError();
-        } else if (!isValidEmail(email)) {// let's keep this simple for now not using android pattern
+        }
+        else if (!isValidEmail(email)) {// let's keep this simple for now not using android pattern
             screen.showInvalidEmailError();
-        } else if (phone == null || phone.trim().length() <= VALID_PHONE_NUMBER_LENGTH) {
+        }
+        else if (phone == null || phone.trim().length() <= VALID_PHONE_NUMBER_LENGTH) {
             screen.showInvalidPhoneNumberError();
-        } else {
-            final Contact contact = new Contact.Builder()
+        }
+        else {
+            updateOrAddContact(firstName, phone, email);
+        }
+    }
+
+    private void updateOrAddContact(String firstName, String phone, String email) {
+        final Contact contact;
+        if (previousContactData != null) {
+            previousContactData.setFirstName(firstName);
+            previousContactData.setPhoneNumber(phone);
+            previousContactData.setEmail(email);
+            contact = previousContactData;
+        }
+        else {
+            contact = new Contact.Builder()
                     .phoneNumber(phone)
                     .email(email)
-                    .firstName(firstName).build();
-            screen.showLoading();
-
-            compositeDisposable.add(dataSource.createContact(contact)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<Contact>() {
-                        @Override
-                        public void onNext(Contact contact) {
-                            screen.showContactSavedMessage();
-                            screen.hideLoading();
-                            screen.finishScreen();
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Timber.e(e);
-                            screen.hideLoading();
-                            screen.showContactFailToSaveError();
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            Timber.i("hello");
-                        }
-                    }));
+                    .firstName(firstName)
+                    .build();
         }
+
+        screen.showLoading();
+
+        final Observable<Contact> createOrUpdateContact
+                = (previousContactData != null) ? dataSource.updateContact(contact) : dataSource.createContact(contact);
+
+        compositeDisposable.add(createOrUpdateContact
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Contact>() {
+                    @Override
+                    public void onNext(Contact contact) {
+                        handleContactAddOrUpdateSuccess();
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        handleContactAddOrUpdateError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Timber.i("hello");
+                    }
+                }));
+    }
+
+    private void handleContactAddOrUpdateError(Throwable e) {
+        Timber.e(e);
+        screen.hideLoading();
+        screen.showContactFailToSaveError();
+    }
+
+    private void handleContactAddOrUpdateSuccess() {
+        screen.showContactSavedMessage();
+        screen.hideLoading();
+        screen.finishScreen();
     }
 
     private static boolean isValidEmail(CharSequence target) {
@@ -95,4 +126,9 @@ class AddOrEditContactPresenter implements AddOrEditCotactContract.Presenter {
                     "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                     ")+"
     );
+
+    public void setContactData(Contact contact) {
+        this.previousContactData = contact;
+        screen.prefillData(contact);
+    }
 }

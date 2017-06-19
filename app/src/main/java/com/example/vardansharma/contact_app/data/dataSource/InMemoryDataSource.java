@@ -53,22 +53,24 @@ public class InMemoryDataSource implements DataSource {
 
     @Override
     public Observable<Contact> updateContact(Contact contact) {
-        return null;
+        return Observable.just(updateSingleContact(contact));
     }
 
     public void updateContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public void updateSingleContact(Contact contact) {
+    public Contact updateSingleContact(Contact contact) {
         for (int i = 0; i < contacts.size(); i++) {
             Contact contact1 = contacts.get(i);
             if (contact.getId() == contact1.getId()) {
                 contact.setHasFullContactDetails(true);
                 contacts.set(i, contact);
                 sortList();
+                return contact;
             }
         }
+        return null;
     }
 
     private void sortList() {

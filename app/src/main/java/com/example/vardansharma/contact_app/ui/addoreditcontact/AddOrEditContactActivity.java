@@ -17,6 +17,8 @@ import com.example.vardansharma.contact_app.ContactsApp;
 import com.example.vardansharma.contact_app.R;
 import com.example.vardansharma.contact_app.base.BaseActivity;
 import com.example.vardansharma.contact_app.data.models.Contact;
+import com.example.vardansharma.contact_app.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -43,9 +45,13 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
     TextInputLayout phoneInputLayout;
     @BindView (R.id.add_edit_contact_email_input_layout)
     TextInputLayout emailInputLayout;
+    @BindView (R.id.add_edit_contact_image)
+    ImageView contactImage;
+
 
     @Inject
     AddOrEditContactPresenter presenter;
+
 
     private AddOrEditContactComponent component;
     private ProgressDialog progressDialog;
@@ -69,6 +75,13 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
         setContentView(R.layout.activity_add_or_edit_contact);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+
+        Contact contact = getIntent().getParcelableExtra(EXTRA_CONTACT);
+        if (contact != null) {
+            presenter.setContactData(contact);
+        }
+
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         email.setOnEditorActionListener((v, keyCode, event) -> {
@@ -81,6 +94,18 @@ public class AddOrEditContactActivity extends BaseActivity implements AddOrEditC
         });
 
         progressDialog = new ProgressDialog(this);
+    }
+
+    @Override
+    public void prefillData(Contact contact) {
+        email.setText(contact.getEmail());
+        name.setText(contact.getFirstName());
+        phone.setText(contact.getPhoneNumber());
+        Picasso.with(this)
+                .load(Utils.getProfileUrl(contact.getProfilePic()))
+                .placeholder(R.drawable.ic_profile_placeholder)
+                .error(R.drawable.ic_profile_placeholder)
+                .into(contactImage);
     }
 
     @Override

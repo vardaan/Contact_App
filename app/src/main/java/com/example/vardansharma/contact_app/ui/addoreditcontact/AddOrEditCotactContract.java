@@ -2,6 +2,7 @@ package com.example.vardansharma.contact_app.ui.addoreditcontact;
 
 import com.example.vardansharma.contact_app.base.BasePresenter;
 import com.example.vardansharma.contact_app.base.BaseScreen;
+import com.example.vardansharma.contact_app.data.models.Contact;
 
 public interface AddOrEditCotactContract {
 
@@ -23,5 +24,7 @@ public interface AddOrEditCotactContract {
         void showContactFailToSaveError();
 
         void finishScreen();
+
+        void prefillData(Contact contact);
     }
 }
