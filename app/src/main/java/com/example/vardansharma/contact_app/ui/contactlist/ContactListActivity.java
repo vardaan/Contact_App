@@ -21,6 +21,7 @@ import com.example.vardansharma.contact_app.ui.addoreditcontact.AddOrEditContact
 import com.example.vardansharma.contact_app.ui.contactDetail.ContactDetailActivity;
 import com.example.vardansharma.contact_app.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,18 +34,19 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
         ContactListAdapter.onContactClicked {
     @Inject
     ContactListContract.Presenter presenter;// private fields won't be injected
-    @BindView(R.id.contact_list_no_Data)
+    @BindView (R.id.contact_list_no_Data)
     TextView contactListNoData;
-    @BindView(R.id.contact_list_toolbar)
+    @BindView (R.id.contact_list_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.contact_list_rv)
+    @BindView (R.id.contact_list_rv)
     RecyclerView recyclerView;
-    @BindView(R.id.contact_list_add_contact)
+    @BindView (R.id.contact_list_add_contact)
     FloatingActionButton addContact;
 
     private ContactListComponent component;
 
     private ProgressDialog progressDialog;
+    private ContactListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +59,19 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ContactListAdapter(new ArrayList<>(), this);
+        recyclerView.setAdapter(adapter);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.loading_msg));
 
         presenter.attachView();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         presenter.getAllContacts();
     }
 
@@ -74,7 +84,6 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
 
     private void initDI() {
         ContactsApp contactApp = (ContactsApp) getApplication();
-        contactApp.getAppComponent();
         component = DaggerContactListComponent.builder()
                 .applicationComponent(contactApp.getAppComponent())
                 .contactListModule(new ContactListModule(this))
@@ -112,10 +121,14 @@ public class ContactListActivity extends BaseActivity implements ContactListCont
 
     @Override
     public void showData(List<Contact> contacts) {
-        recyclerView.setAdapter(new ContactListAdapter(contacts, this));
+//        final DiffUtil.DiffResult diffResult =
+//                DiffUtil.calculateDiff(new ContactsDiffCallback(adapter.getContacts(), contacts));
+        adapter.setData(contacts);
+        adapter.notifyDataSetChanged();// very very bad
+//        diffResult.dispatchUpdatesTo(adapter);
     }
 
-    @OnClick(R.id.contact_list_add_contact)
+    @OnClick (R.id.contact_list_add_contact)
     public void onAddContactClicked() {
         startActivity(AddOrEditContactActivity.createIntent(this));
     }

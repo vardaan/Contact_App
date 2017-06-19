@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactVH> {
 
-    private final List<Contact> contacts;
+    private List<Contact> contacts;
     private onContactClicked callback;
 
     ContactListAdapter(List<Contact> contacts, onContactClicked callback) {
@@ -56,6 +56,10 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.Contact
         return contacts.size();
     }
 
+    public void setData(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     static class ContactVH extends RecyclerView.ViewHolder {
         @BindView (R.id.contact_name)
         TextView contactName;
@@ -70,6 +74,10 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.Contact
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
     interface onContactClicked {
